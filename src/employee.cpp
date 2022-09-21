@@ -120,10 +120,26 @@ void Employee::setRole(ROLE Role,Company *compObj){
 	}
 
 }
-ROLE Employee::getRole(){
-		return this->Role;
+string Employee::getRole(){
+	switch(this->Role){
+	case 0:
+		return "CEO";
+	case 1:
+		return "MANAGER";
+	case 2:
+		return "TEAM_LEAD";
+	case 3:
+		return "DEVELOPER";
+	case 4:
+		return "TESTER";
+	case 5:
+		return "HR";
+	default:
+		return "No_Role";
+	}
+
 }
-ROLE Employee::getRole(Company *compObj){
+string Employee::getRole(Company *compObj){
 	Employee *Emp=findEmployeeInDep(*this,compObj);
 	if(!(Emp==nullptr)){
 	    return Emp->getRole();
@@ -133,7 +149,7 @@ ROLE Employee::getRole(Company *compObj){
 			return Emp->getRole();
 		}else{
 			cout<<"Employee not found in Company"<<endl;
-            return 	NO_ROLE;
+            return 	"NO_ROLE";
 		}
 	}
 }
@@ -178,46 +194,10 @@ int Employee::getSalary(Company *compObj){
 void Employee::setEmpId(int empID){//private function
 	this->empID=empID;
 }
-/*void Employee::setEmpId(int empID,Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
-		if(!(Emp==nullptr)){
-	        Emp->setEmpId(empID);
-            return;
-		}else{
-			Emp=findEmployeeInCompany(*this,compObj);
-			if(!(Emp==nullptr)){
-				Emp->setEmpId(empID);
-				//compObj->getCeoEmp().setEmpId(empID,compObj);
-				//cout<<Emp->getEmpId()<<endl;
-				//cout<<Emp->getEmpId(compObj)<<endl;
-				//cout<<compObj->getCeoEmp().getEmpId(compObj)<<endl;
-				cout<<"employee id has been changed to "<<empID<<endl;
-				return;
-			}else{
-			cout<<"Employee Not found in Company"<<endl;
-			return;
-			}
-		}
-}*/
 
 int Employee::getEmpId(){
     return this->empID;
 }
-/*int Employee::getEmpId(Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
-	if(!(Emp==nullptr)){
-		return Emp->getEmpId();
-	}
-	else{
-		Emp=findEmployeeInCompany(*this,compObj);
-		if(!(Emp==nullptr)){
-			return Emp->getEmpId();
-		}else{
-			cout<<"Employee Not found in Company"<<endl;
-			return -99999;
-		}
-	}
-}*/
 bool Employee::operator == (Employee Emp){
 	return (Emp.getEmpId() == this->getEmpId());
 }

@@ -32,8 +32,8 @@ public:
 	std::string getName(Company *compObj);
 	void setRole(ROLE Role);
 	void setRole(ROLE Role,Company *compObj);
-	ROLE getRole();
-	ROLE getRole(Company *compObj);
+	std::string getRole();
+	std::string getRole(Company *compObj);
 	void setSalary(int salary);
 	void setSalary(int salary,Company *compObj);
 	int getSalary();

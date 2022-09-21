@@ -57,13 +57,17 @@ Department * findSubDepartment(Department neededDep, Department parentDep){//for
     return nullptr;
 }
 Employee * findEmployeeInDep(Employee emp,Company *compObj){//for hirarichy
-    for( auto i=compObj->getMainDeps()->begin();i!=compObj->getMainDeps()->end();i++){
+	Employee * RequiredEmployee=nullptr;
+	for( auto i=compObj->getMainDeps()->begin();i!=compObj->getMainDeps()->end();i++){
     	auto j=find((*i).getEmpsOfDep().begin(),(*i).getEmpsOfDep().end(),emp);
     		if( j != (*i).getEmpsOfDep().end()) {
       		    return &(*j);
     	}
     	else if((*i).isAnySubDeps()==1){
-    		return findEmpInSubDep(emp,(*i));
+    		 RequiredEmployee= findEmpInSubDep(emp,(*i));
+    		 if(RequiredEmployee!=nullptr){
+    			 return RequiredEmployee;
+    		 }
 
     	}
 
@@ -72,13 +76,17 @@ Employee * findEmployeeInDep(Employee emp,Company *compObj){//for hirarichy
     return nullptr;
 }
 Employee *findEmpInSubDep(Employee emp,Department dep){
+	Employee * RequiredEmployee=nullptr;
 	for(auto H=dep.getSubDeps()->begin(); H!=dep.getSubDeps()->end();H++){
 		auto j=find((*H).getEmpsOfDep().begin(),(*H).getEmpsOfDep().end(),emp);
 		if( j != (*H).getEmpsOfDep().end()) {
 		      		    return &(*j);
 		    	}
 		    	else if((*H).isAnySubDeps()==1){
-		    		return findEmpInSubDep(emp,(*H));
+		    		RequiredEmployee=findEmpInSubDep(emp,(*H));
+		    		if(RequiredEmployee!=nullptr){
+		    			return RequiredEmployee;
+		    		}
 		    	}
 	}
 
@@ -106,12 +114,12 @@ int main() {
 //	cout<<"hello"<<endl;
 	cout<<comp->getCeoEmp().getAge(comp)<<"   "<<comp->getCeoEmp().getName(comp)<<"   "<<comp->getCeoEmp().getEmpId()<<"   "<<comp->getCeoEmp().getRole(comp)<<"   "<<comp->getCeoEmp().getSalary(comp)<<endl;
 	Employee CEOemp("Aseel",24,CEO,500500);
-	cout<<comp->getCeoEmp().getAge(comp)<<"   "<<comp->getCeoEmp().getName(comp)<<"   "<<comp->getCeoEmp().getEmpId()<<"   "<<comp->getCeoEmp().getRole(comp)<<"   "<<comp->getCeoEmp().getSalary(comp)<<endl;
+	//cout<<comp->getCeoEmp().getAge(comp)<<"   "<<comp->getCeoEmp().getName(comp)<<"   "<<comp->getCeoEmp().getEmpId()<<"   "<<comp->getCeoEmp().getRole(comp)<<"   "<<comp->getCeoEmp().getSalary(comp)<<endl;
 	cout<<"*************************************************************************************"<<endl;
-	comp->setCeoEmp(CEOemp);
+	comp->setCeoEmp(CEOemp);///set aseel as the CEO
 	cout<<comp->getCeoEmp().getAge(comp)<<"   "<<comp->getCeoEmp().getName(comp)<<"   "<<comp->getCeoEmp().getEmpId()<<"   "<<comp->getCeoEmp().getRole(comp)<<"   "<<comp->getCeoEmp().getSalary(comp)<<endl;
 		//comp->getCeoEmp().
-	comp->getCeoEmp().setSalary(53120, comp);
+	comp->getCeoEmp().setSalary(53120,comp);
 	//comp->getCeoEmp().setRole(HR,comp);
 	comp->getCeoEmp().setName("aseeooool",comp);
 	CEOemp.setName("ASEEEEEOLLLL");
@@ -127,6 +135,8 @@ Department dep1("backend");
 Department dep2("frontend");
 Department dep3("HR");
 Department dep4("UI/UX");
+Department dep45("backend");
+cout<<"*******************************------------------------------******************************************************"<<endl;
 cout<<"size :"<<comp->getMainDeps()->size()<<endl;
 comp->addMainDepToCompany(dep1);
 cout<<"size :"<<comp->getMainDeps()->size()<<endl;
@@ -141,11 +151,10 @@ cout<<comp->getMainDeps()->front().getDepName()<<endl;
 
 cout<<comp->getMainDeps()->size()<<endl;
 cout<<"******************************"<<endl;
-cout<<comp->getMainDeps()->front().getDepName()<<endl;
-cout<<comp->getMainDeps()->front().getDepNum()<<endl;
+//cout<<comp->getMainDeps()->front().getDepName()<<endl;
 vector<Department> vd=*comp->getMainDeps();
 for(auto j=vd.begin();j!=vd.end();j++){
-	cout<<(*j).getDepName()<<"   "<<(*j).getDepNum()<<endl;
+	cout<<(*j).getDepName()<<endl;
 }
 cout<<"******************************"<<endl;
 comp->removeMainDepFromCompany(dep1);
@@ -156,12 +165,11 @@ comp->removeMainDepFromCompany(dep3);
 cout<<"size :"<<comp->getMainDeps()->size()<<endl;
 comp->removeMainDepFromCompany(dep4);
 cout<<"size :"<<comp->getMainDeps()->size()<<endl;
-cout<<"******************************"<<endl;
+cout<<"***************************************************************************************"<<endl;
 cout<<"size of vd "<<vd.size()<<endl;
 comp->setMainDeps(vd);
 cout<<"size :"<<comp->getMainDeps()->size()<<endl;
-comp->getMainDeps()->at(1).setDepName("hehe");
-cout<<comp->getMainDeps()->at(1).getDepName();
+cout<<comp->getMainDeps()->at(1).getDepName()<<endl;
 //Employee(std::string Name,float Age ,ROLE Role,int Salary);
 cout<<"******************************"<<endl;
 Employee emp1("ahmad",21.5,HR,20123);
@@ -196,23 +204,27 @@ dep5.setSubDeps(departs);
 //cout<<dep5.isAnySubDeps()<<endl;
 cout<<"******************************************************"<<endl;
 cout<<dep5.getSubDeps()->size()<<endl;
-cout<<dep5.getSubDeps()->at(0).getDepNum()<<endl;
+
 cout<<dep5.isAnySubDeps()<<endl;
 cout<<"******************************************************"<<endl;
 for(auto i=dep5.getSubDeps()->begin();i!=dep5.getSubDeps()->end();i++){
-	cout<<"name of dep: "<<(*i).getDepName()<<"  number of dep  :  "<<(*i).getDepNum()<<endl;
+	cout<<"name of dep: "<<(*i).getDepName()<<endl;
 }
-comp->getMainDeps()->at(0).addSubDep(dep5, comp);
-comp->getMainDeps()->at(1).addSubDep(dep8, comp);
-comp->getMainDeps()->at(2).addSubDep(dep9, comp);
+comp->getMainDeps()->at(0).addSubDep(dep5);
+comp->getMainDeps()->at(1).addSubDep(dep8);
+comp->getMainDeps()->at(2).addSubDep(dep9);
 cout<<comp->getMainDeps()->at(0).isAnySubDeps()<<endl;
 cout<<comp->getMainDeps()->at(1).isAnySubDeps()<<endl;
 cout<<comp->getMainDeps()->at(2).isAnySubDeps()<<endl;
 cout<<"*****************************************************"<<endl;
 cout<<" the getSubDeps(comp) use "<<comp->getMainDeps()->at(0).getSubDeps(comp)->at(0).getSubDeps(comp)->size()<<endl;
 cout<<" the getSubDeps(comp) required use "<<comp->getMainDeps()->at(0).getSubDeps(comp)->at(0).getDepName()<<endl;
-cout<<comp->getMainDeps()->at(1).getSubDeps(comp)->size()<<endl;
-cout<<comp->getMainDeps()->at(2).getSubDeps(comp)->size()<<endl;
+cout<<comp->getMainDeps()->at(1).getDepName()<<endl;
+cout<<comp->getMainDeps()->at(2).getDepName()<<endl;
+cout<<comp->getMainDeps()->at(1).getSubDeps(comp)->at(0).getDepName()<<endl;
+//cout<<comp->getMainDeps()->at(1).getSubDeps(comp)->at(1).getDepName()<<endl;
+cout<<comp->getMainDeps()->at(2).getSubDeps(comp)->at(0).getDepName()<<endl;
+//cout<<comp->getMainDeps()->at(2).getSubDeps(comp)->at(1).getDepName()<<endl;
 cout<<"******************************************************"<<endl;
 Department dep10("dep10");
 Department dep11("dep11");
@@ -224,19 +236,33 @@ cout<<"******************************************************"<<endl;
 dep4.addSubDep(dep10,comp);
 cout<<comp->getMainDeps()->at(3).isAnySubDeps()<<endl;
 cout<<comp->getMainDeps()->at(3).getDepName()<<endl;
-cout<<comp->getMainDeps()->at(3).getDepName(comp)<<endl;
-cout<<dep4.isAnySubDeps()<<endl;
+cout<<"...............................................here..............................................."<<endl;
+cout<<comp->getMainDeps()->at(3).getSubDeps()->size()<<endl;//1
+cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->size()<<endl;//1
+cout<<dep4.isAnySubDeps()<<endl;//1
+cout<<dep4.getSubDeps(comp)->size()<<endl;//1
+cout<<dep4.getSubDeps()->size()<<endl;//1
 cout<<"******************************************************"<<endl;
 dep4.RemoveSubDep(dep10, comp);
-cout<<dep4.isAnySubDeps()<<endl;
-cout<<comp->getMainDeps()->at(3).isAnySubDeps()<<endl;
+cout<<"...............................................here..............................................."<<endl;
+cout<<comp->getMainDeps()->at(3).getSubDeps()->size()<<endl;//0
+cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->size()<<endl;//0
+cout<<dep4.isAnySubDeps()<<endl;//0
+cout<<dep4.getSubDeps(comp)->size()<<endl;//0
+cout<<dep4.getSubDeps()->size()<<endl;//0
+
+cout<<"...............................................here..............................................."<<endl;
+
+
+
+cout<<dep4.isAnySubDeps()<<endl;//0
+cout<<comp->getMainDeps()->at(3).isAnySubDeps()<<endl;//0
 cout<<"******************************************************"<<endl;
 //dep4.setSubDeps(dept, comp);
 comp->getMainDeps()->at(3).setSubDeps(dept);
-cout<<dep4.isAnySubDeps()<<endl;
-cout<<comp->getMainDeps()->at(3).isAnySubDeps()<<endl;
-cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->size()<<endl;
-cout<<comp->getMainDeps()->at(3).getDepNum()<<endl;
+cout<<dep4.isAnySubDeps()<<endl;//0
+cout<<comp->getMainDeps()->at(3).isAnySubDeps()<<endl;//1
+cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->size()<<endl;//2
 //Employee(std::string Name,float Age ,ROLE Role,int Salary);
 Employee emp10("emp10",60.0,HR,51511);
 Employee emp11("emp11",60.0,MANAGER,511);
@@ -246,19 +272,19 @@ Employee emp14("emp14",60.0,HR,51511);
 Employee emp15("emp15",60.0,HR,51511);
 Employee emp16("emp16",60.0,HR,51511);
 Employee emp17("emp17",60.0,HR,51511);
-cout<<comp->getMainDeps()->at(3).getDepName(comp)<<endl;
-cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->size()<<endl; //getDepName(comp)<<endl;
+cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->at(0).getDepName()<<endl;
+cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->at(1).getDepName()<<endl;
 cout<<"******************************//////////////////////////////////****************************"<<endl;
-dep10.setDepName("depname modified", comp);
 //cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->at(0).getDepName()<<endl;
 //cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->at(1).getDepName(comp)<<endl;
-//cout<<findEmployeeInCompany(emp4,comp)->getName()<<endl;
+cout<<findEmployeeInCompany(emp4,comp)->getName()<<endl;
 //cout<<findEmployeeInCompany(emp4,comp)->getName(comp)<<endl;
-//emp4.setName("malooka",comp);
-//cout<<findEmployeeInCompany(emp4,comp)->getName()<<endl;
-//cout<<emp4.getName()<<endl;
-//cout<<emp4.getName(comp)<<endl;
-
+cout<<"******************************//////////////////////////////////****************************"<<endl;
+emp4.setName("malooka",comp);
+cout<<findEmployeeInCompany(emp4,comp)->getName()<<endl;
+cout<<emp4.getName()<<endl;
+cout<<emp4.getName(comp)<<endl;
+cout<<"******************************//////////////////////////////////****************************"<<endl;
 		//.getDepName()<<endl;
 	/*
 	Company *comp=comp->getCompObject();

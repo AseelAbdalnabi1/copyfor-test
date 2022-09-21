@@ -40,7 +40,7 @@ vector<Department> *Company::getMainDeps(){
 }
 void Company::addMainDepToCompany(Department dep){
 		cout<<"in addMainDep "<<endl;
-cout<<dep.getDepNum()<<endl;
+cout<<dep.getDepName()<<endl;
 cout<<"size in addMainDepToCompany:"<<this->getMainDeps()->size()<<endl;
  if(find(getMainDeps()->begin(),getMainDeps()->end(), dep) == getMainDeps()->end()){
 	 cout<<"in addMainDep after find"<<endl;

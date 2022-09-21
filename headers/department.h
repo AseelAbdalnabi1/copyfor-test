@@ -22,6 +22,7 @@ private:
 	std::vector<Employee> EmpsOfDep={};
 	bool setDepName(std::string DepName);
 	static std::set<std::string> NameOFDepartments;
+	//std::set<std::string> * getNameOFDepartments();
 public:
 	Department(std::string DepName,std::vector<Department> SubDeps={},std::vector<Employee> EmpsOfDep={});
 	std::vector <Employee> getEmpsOfDep();

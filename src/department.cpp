@@ -18,11 +18,11 @@ Department * findDepartment(Department neededDep,Company *compObj);
 Employee * findEmployeeInDep(Employee emp,Company *compObj);
 Employee *findEmpInSubDep(Employee emp,Department dep);
 Employee *findEmployeeInCompany(Employee emp,Company *compObj);
+std::set<std::string> Department::NameOFDepartments ={};
 Department::Department(string DepName,vector<Department> SubDeps,vector<Employee> EmpsOfDep){
-    this->setDepName(DepName);
-
+    this->setSubDeps(SubDeps);
 	this->setEmpsOfDep(EmpsOfDep);
-	if(this->setSubDeps(SubDeps)){
+	if(this->setDepName(DepName)){
 	cout<<"department created with DepName :"<<this->getDepName()<<endl;
 	}
 	else{
@@ -70,8 +70,8 @@ bool Department::isAnySubDeps(){
 	return getSubDeps()->size()!=0;
 }
 vector<Department> *Department::getSubDeps(){
-	static int k=0;
-	cout<<k++<<endl;
+	//static int k=0;
+	//cout<<k++<<endl;
     return &(SubDeps);
 }
 vector<Department> *Department::getSubDeps(Company *compObj){
@@ -103,10 +103,12 @@ void Department::setSubDeps(vector<Department> SubDeps,Company *compObj){
 string Department::getDepName(){
 	return this->DepName;
 }
-
+/*std::set<std::string> *Department::getNameOFDepartments(){
+    return this->NameOFDepartments;
+}*/
 bool Department::setDepName(string DepName){
-	if (NameOFDepartments.find(DepName) == NameOFDepartments.end()) {
-		NameOFDepartments.insert(DepName);
+	if (this->NameOFDepartments.find(DepName) == this->NameOFDepartments.end()) {
+		this->NameOFDepartments.insert(DepName);
 		this->DepName=DepName;
 		return true;
 	}
@@ -124,22 +126,6 @@ bool Department::removeEmpFromDep(Employee emp){
 			cout<<"Employee with "<<emp.getEmpId()<<"dose not exists in "<<this->DepName<<endl;
 		  return false;//emp did not found in department and has not been deleted
 		}
-
-
-
-
-
-	/* for(auto i=EmpsOfDep.begin(); i !=EmpsOfDep.end() ;i++)
-    {
-  	  if((*i).getEmpId() == emp.getEmpId()){
-  		  EmpsOfDep.erase(i);
-  		  cout<<"Employee with "<<emp.getEmpId()<<" removed successfully from"<<this->DepName<<endl;
-  		  return;
-  	  }
-    }
-    cout<<"Employee with "<<emp.getEmpId()<<"dose not exists in "<<this->DepName<<endl;
-    return;
-    */
 
 }
 void Department::removeEmpFromDep(Employee emp,Company *compObj){
@@ -205,14 +191,6 @@ void Department::addEmpToDep(Employee emp,Company *compObj){
 	}
 
 }
-/*void Department::addEmpToDep(Employee emp,Company *compObject, vector<Department>::iterator i){
-	EmpsOfDep.push_back(emp);
-	compObject->EmpsOfAllCompany.push_back(emp);
-	(*i).EmpsOfDep.push_back(emp);
-
-
-
-}*/
 void Department::RemoveSubDep(Department department){
      auto i=find(this->getSubDeps()->begin(), this->getSubDeps()->end(),department);
      if(i!=this->getSubDeps()->end()){
@@ -223,17 +201,6 @@ void Department::RemoveSubDep(Department department){
     	 cout<<"sub_department "<<department.DepName<<"dose not exists in "<<this->DepName<<endl;
     	 return;
      }
-	/*for(auto i=this->getSubDeps().begin();i!=this->getSubDeps().end();i++)
-      {
-    	  if((*i).DepNum == department.DepNum){
-    		  SubDeps.erase(i);
-    		  cout<<"Sub_department "<<department.DepName<<" removed successfully from"<<this->DepName<<endl;
-    		  return;
-    	  }
-      }
-      cout<<"sub_department "<<department.DepName<<"dose not exists in "<<this->DepName<<endl;
-      return;
-*/
 	}
 void Department::RemoveSubDep(Department department,Company *compObj){
 	Department *dep=findDepartment(*this,compObj);
@@ -263,7 +230,7 @@ void Department::addSubDep(Department department,Company *compObj){
 
 }
 Department::~Department(){
-	cout<<"Department has deleted successfully, in Department destructor"<<endl;
+	//cout<<"Department has deleted successfully, in Department destructor"<<endl;
 }
 bool Department::operator == (Department depObj) {
         if(depObj.getDepName() == this->getDepName()) {
