@@ -15,7 +15,7 @@ using namespace std;
  vector<Employee> Company::EmpsOfAllCompany = {};
  vector<Department>  Company::DepsOfAllCompany={};
 Company::Company(){
-	this->CeoEmp=new Employee("Tareq",35,CEO,50000,1);
+	this->CeoEmp=new Employee("Tareq",35,CEO,50000);
     cout<<"ceo in const"<<endl;
 	 EmpsOfAllCompany.push_back(*CeoEmp);
 	 //MainDeps.clear();
@@ -27,38 +27,46 @@ Employee Company::getCeoEmp(){
 }
 void Company::setCeoEmp(Employee CeoEmp){
      this->CeoEmp=&CeoEmp;
-     EmpsOfAllCompany.push_back(CeoEmp);//WRONG WE MEED TO MODIFY THE ALREADY SELECTED CEO
+     //if(find(EmpsOfAllCompany.begin(),EmpsOfAllCompany.end(),)){
+     EmpsOfAllCompany[0]=CeoEmp;
+
 }
 void Company::setMainDeps(vector<Department> MainDeps){
      this->MainDeps=MainDeps;
      DepsOfAllCompany.insert(DepsOfAllCompany.end(), MainDeps.begin(),MainDeps.end() );
 }
-vector<Department> Company::getMainDeps(){
-     return this->MainDeps;
+vector<Department> *Company::getMainDeps(){
+     return &MainDeps;
 }
 void Company::addMainDepToCompany(Department dep){
- if(find(this->getMainDeps().begin(),this->getMainDeps().end(), dep) == this->getMainDeps().end()){
+		cout<<"in addMainDep "<<endl;
+cout<<dep.getDepNum()<<endl;
+cout<<"size in addMainDepToCompany:"<<this->getMainDeps()->size()<<endl;
+ if(find(getMainDeps()->begin(),getMainDeps()->end(), dep) == getMainDeps()->end()){
+	 cout<<"in addMainDep after find"<<endl;
 	MainDeps.push_back(dep);
+	cout<<"in addMainDep after push maindep "<<endl;
  }
- if(find(this->DepsOfAllCompany.begin(),this->DepsOfAllCompany.end(), dep) == this->DepsOfAllCompany.end()){
+/* if(find(this->DepsOfAllCompany.begin(),this->DepsOfAllCompany.end(), dep) == this->DepsOfAllCompany.end()){
+
 	 DepsOfAllCompany.push_back(dep);
- }
+ }*/
  }
 
 void Company::removeMainDepFromCompany(Department dep){
-	auto i=find(this->getMainDeps().begin(),this->getMainDeps().end(), dep);
+	auto i=find(getMainDeps()->begin(),getMainDeps()->end(), dep);
 
-	 if(i != this->getMainDeps().end()){
+	 if(i != this->getMainDeps()->end()){
 		  MainDeps.erase(i);
-
-		  auto i=find(this->DepsOfAllCompany.begin(),this->DepsOfAllCompany.end(), dep);
-		  	 if(i != this->DepsOfAllCompany.end()){
-		  		this->DepsOfAllCompany.erase(i);
-		  		cout<<"Department "<<dep.getDepName()<<" removed successfully from company"<<endl;
-		  	    return;
-		  		 }
+          cout<<"department has bee deleted successfully"<<endl;
+//		  auto i=find(this->DepsOfAllCompany.begin(),this->DepsOfAllCompany.end(), dep);
+//		  	 if(i != this->DepsOfAllCompany.end()){
+//		  		this->DepsOfAllCompany.erase(i);
+//		  		cout<<"Department "<<dep.getDepName()<<" removed successfully from company"<<endl;
+//		  	    return;
+//		  		 }
 	 }else{
-		 cout<<"Department with"<<dep.getDepName()<<"dose not exists in company"<<endl;
+		 cout<<"Department with  "<<dep.getDepName()<<"  dose not exists in company"<<endl;
 			      return;
 	 }
 }
@@ -73,9 +81,9 @@ void allEmpsFun(Department dep,Company *obj ){
      cout<<dep.isAnySubDeps()<<endl;
     if(dep.isAnySubDeps()==1){
     	cout<<"yes there is subdeps"<<endl;
-    	vector<Department> SubDepart=dep.getSubDeps();
-    	//for(auto f=dep.getSubDeps().begin();f!=dep.getSubDeps().end();f++){
-    	for(auto f=SubDepart.begin();f!=SubDepart.end();f++){
+    	//vector<Department> SubDepart=dep.getSubDeps();
+    	for(auto f=dep.getSubDeps()->begin();f!=dep.getSubDeps()->end();f++){
+    	//for(auto f=SubDepart.begin();f!=SubDepart.end();f++){
          allEmpsFun((*f),obj);
 
     	}
@@ -86,7 +94,10 @@ void allEmpsFun(Department dep,Company *obj ){
     }
 }
 vector<Employee> Company::allEmployees(){
-cout<<"allEmployee function called-at the begining "<<endl;
+	cout<<"allEmployee function called-at the begining "<<endl;
+	if(!(this->allEmpsOfDepartments.empty())){
+		allEmpsOfDepartments.clear();
+	}
     int size=(int) MainDeps.size();
      cout<<size<<endl;
 
@@ -114,21 +125,9 @@ void Company::empsWithSameSalary(Company *compObj){
 		cout<<"Company has NO employees "<<endl;
 		return;
 	}
-	/*if(compObj->allEmpsOfDepartments.size()==0){
-	      compObj->allEmployees();//CEO can't be in this vector
-	   }
-	   Hash hashForEmpsWithSameSalary(compObj->allEmpsOfDepartments.size());
-	   for(auto i=compObj->allEmpsOfDepartments.begin();i!=compObj->allEmpsOfDepartments.end();i++){
-	    hashForEmpsWithSameSalary.insertItem((*i));
-	   }
-	   hashForEmpsWithSameSalary.displayEmployeesWithSameSalary();*/
-
-
 }
-/*vector<Employee> Company::getEmpsOfAllCompany(){
-	return this->EmpsOfAllCompany;
-}*/
-void Company::addEmpToCompany(Employee emp){//employees who are in company but no in department
+
+void Company::addEmpToCompany(Employee emp){//employees who are in company but not in department
 	auto i=find(this->EmpsOfAllCompany.begin(), this->EmpsOfAllCompany.end(), emp);
 		if(i != this->EmpsOfAllCompany.end()){
 			cout<<"employee already exists in Company"<<endl;
@@ -139,38 +138,16 @@ void Company::addEmpToCompany(Employee emp){//employees who are in company but n
 			return;
 		}
 
-	/*	for(auto i=this->getEmpsOfAllCompany().begin();i!=this->getEmpsOfAllCompany().end();i++){
-		if((*i).getEmpId()==emp.getEmpId()){//needs == override
-			cout<<"employee already exists in Company"<<endl;
-		}
-			return;
-		}
-		this->getEmpsOfAllCompany().push_back(emp);*/
-
 }
-void Company::removeEmpFromCompany(Employee emp){//employees who are in company but no in department
+void Company::removeEmpFromCompany(Employee emp){//employees who are in company but not in department
 	auto i=find(this->EmpsOfAllCompany.begin(), this->EmpsOfAllCompany.end(), emp);
 	if(i != this->EmpsOfAllCompany.end()){
 		this->EmpsOfAllCompany.erase(i);
 	}
-}
-/*void Company::addEmpToCompany(Employee Emp,Department Dep){
-	for(auto i=this->getEmpsOfAllCompany().begin();i!=this->getEmpsOfAllCompany().end();i++){
-		if((*i)==Emp){//needs == override
-			cout<<"employee already exists in Company"<<endl;
-			return;
-		}
+	else{
+		cout<<"employee with empID number: "<<emp.getEmpId()<<"is not part of the company"<<endl;
 	}
-	for(auto i=this->getMainDeps().begin();i!=this->getMainDeps().end();i++){
-			if((*i)==Dep){
-                Dep.addEmpToDep(Emp, this,i);//main departments
-                cout<<"Employee added successfully!"<<endl;
-                return;
-			}
-
-	     }
-
-}*/
+}
 void Company::empsOfMultiDeps(){
 
 }//using sets or hash or maps

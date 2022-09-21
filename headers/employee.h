@@ -16,10 +16,20 @@ class Employee : public Person{
 private:
 	ROLE Role;
 	int Salary;
+	static int ID;
 	int empID;
+	void setEmpId(int empID);
 public:
-	Employee();
-	Employee(std::string Name,float Age ,ROLE Role,int Salary,int empID);
+	//Employee();
+	Employee(std::string Name,float Age ,ROLE Role,int Salary);
+	std::string getName();
+	void setName(std::string Name);
+	void setName(std::string Name,Company *compObj);
+	float getAge();
+	void setAge(float Age);
+	void setAge(float Age,Company *compObj);
+	float getAge(Company *compObj);
+	std::string getName(Company *compObj);
 	void setRole(ROLE Role);
 	void setRole(ROLE Role,Company *compObj);
 	ROLE getRole();
@@ -28,10 +38,8 @@ public:
 	void setSalary(int salary,Company *compObj);
 	int getSalary();
 	int getSalary(Company *compObj);
-	void setEmpId(int empID);
-	void setEmpId(int empID,Company *compObj);
 	int getEmpId();
-	int getEmpId(Company *compObj);
+	//int getEmpId(Company *compObj);
 	bool operator == (Employee Emp);
 	bool operator == (int const &empID);
 	~Employee();

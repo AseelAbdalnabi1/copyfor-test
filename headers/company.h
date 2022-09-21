@@ -17,7 +17,7 @@ class Department;
 class Company {
 private:
     Employee *CeoEmp=NULL;
-    std::vector<Department> MainDeps={};
+    std::vector<Department> MainDeps;
     static Company *compObject;
     Company();
     ~Company();
@@ -33,10 +33,9 @@ public:
     Employee getCeoEmp();
     void setCeoEmp(Employee CeoEmp);
     void setMainDeps(std::vector<Department> MainDeps);
-    std::vector<Department> getMainDeps();
+    std::vector<Department>* getMainDeps();
     void addMainDepToCompany(Department dep);
     void removeMainDepFromCompany(Department dep);
-    //std::vector<Employee> getEmpsOfAllCompany();
     void addEmpToCompany(Employee emp);
     void removeEmpFromCompany(Employee emp);
     std::vector<Employee> allEmployees();

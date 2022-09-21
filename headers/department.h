@@ -12,40 +12,32 @@
 #include "employee.h"
 #include "company.h"
 #include <vector>
+#include <set>
 class Employee;
 class Company;
 class Department{
 private:
-	std::string DepName;
-	int DepNum;//id
+	std::string DepName;//unique value
 	std::vector<Department> SubDeps={};
 	std::vector<Employee> EmpsOfDep={};
+	bool setDepName(std::string DepName);
+	static std::set<std::string> NameOFDepartments;
 public:
-	Department(std::string DepName,int DepNum,Company *compObj);
-	Department(std::string DepName,int DepNum,std::vector<Department> SubDeps,std::vector<Employee> EmpsOfDep,Company *compObj);
+	Department(std::string DepName,std::vector<Department> SubDeps={},std::vector<Employee> EmpsOfDep={});
 	std::vector <Employee> getEmpsOfDep();
 	std::vector <Employee> getEmpsOfDep(Company *compObj);
 	void setEmpsOfDep(std::vector <Employee> EmpsOfDep);
 	void setEmpsOfDep(std::vector <Employee> EmpsOfDep,Company *compObj);
 	bool isAnySubDeps();
-	std::vector<Department> getSubDeps();
-	std::vector<Department> getSubDeps(Company *compObj);
+	std::vector<Department>* getSubDeps();
+	std::vector<Department>* getSubDeps(Company *compObj);
 	void setSubDeps(std::vector<Department> SubDeps);
 	void setSubDeps(std::vector<Department> SubDeps,Company *compObj);
-
-	int getDepNum();
-	int getDepNum(Company *compObj);
-	void setDepNum(int DepNum);
-	void setDepNum(int DepNum,Company *compObj);
 	std::string getDepName();
-	std::string getDepName(Company *compObj);
-    void setDepName(std::string DepName);
-    void setDepName(std::string DepName,Company *compObj);
-    void removeEmpFromDep(Employee emp);
+    bool removeEmpFromDep(Employee emp);
     void removeEmpFromDep(Employee emp,Company *compObject);
-    void addEmpToDep(Employee emp);
+    bool addEmpToDep(Employee emp);
     void addEmpToDep(Employee emp,Company *compObject);
-    //void addEmpToDep(Employee emp,Company *compObject, std::vector<Department>::iterator i);
     void RemoveSubDep(Department department);
     void RemoveSubDep(Department department,Company *compObj);
 	void addSubDep(Department department);

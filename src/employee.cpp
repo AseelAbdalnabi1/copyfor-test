@@ -10,20 +10,95 @@
 using namespace std;
 #include <string>
 #include <algorithm>
-/*Employee::Employee(){
-    cout<<"employee created successfully"<<endl;
-}*/
 class Company;
 class Employee;
-//int Employee::empID=-99999;
+
 Employee * findEmployeeInDep(Employee emp,Company *compObj);
 Employee *findEmpInSubDep(Employee emp,Department dep);
-Employee::Employee(string Name,float Age ,ROLE Role,int Salary,int empID):Person(Name,Age){
+Employee *findEmployeeInCompany(Employee emp,Company *compObj);
+int Employee::ID=0;
+Employee::Employee(string Name,float Age ,ROLE Role,int Salary):Person(Name,Age){
 	this->setRole(Role);
 	this->setSalary(Salary);
-	this->setEmpId(empID);
+	this->setEmpId(ID+=1);
 	cout<<"Employee created! with empId : "<<this->getEmpId()<<endl;
 }
+string Employee::getName(){
+	return Person::getName();
+}
+void Employee::setName(string Name){
+	Person::setName(Name);
+}
+float Employee::getAge(){
+	return Person::getAge();
+}
+void Employee::setAge(float Age){
+	Person::setAge(Age);
+}
+void Employee::setAge(float Age,Company *compObj){
+	Employee *Emp=findEmployeeInDep(*this,compObj);
+	if(!(Emp==nullptr)){
+	    Emp->Person::setAge(Age);
+	    this->Person::setAge(Age);
+	    return;
+	}else{
+		Emp=findEmployeeInCompany(*this,compObj);
+		if(!(Emp==nullptr)){
+			Emp->Person::setAge(Age);
+			this->Person::setAge(Age);
+		}else{
+		    cout<<"Employee not found in Company"<<endl;
+		    return;
+		}
+	}
+
+}
+float Employee::getAge(Company *compObj){
+	Employee *Emp=findEmployeeInDep(*this,compObj);
+	if(!(Emp==nullptr)){
+		return Emp->Person::getAge();
+	}else{
+		Emp=findEmployeeInCompany(*this,compObj);
+		if(!(Emp==nullptr)){
+			return Emp->Person::getAge();
+		}else{
+			cout<<"Employee not found in Company"<<endl;
+	        return 	-9999;
+		}
+	}
+}
+void Employee::setName(std::string Name,Company *compObj){
+	Employee *Emp=findEmployeeInDep(*this,compObj);
+	if(!(Emp==nullptr)){
+	    Emp->Person::setName(Name);
+	    this->setName(Name);
+	    return;
+	}else{
+		Emp=findEmployeeInCompany(*this,compObj);
+		if(!(Emp==nullptr)){
+			Emp->Person::setName(Name);
+			this->setName(Name);
+		}else{
+		    cout<<"Employee not found in Company"<<endl;
+		    return;
+		}
+	}
+}
+string Employee::getName(Company *compObj){
+	Employee *Emp=findEmployeeInDep(*this,compObj);
+	if(!(Emp==nullptr)){
+		return Emp->Person::getName();
+	}else{
+		Emp=findEmployeeInCompany(*this,compObj);
+		if(!(Emp==nullptr)){
+			return Emp->Person::getName();
+		}else{
+			cout<<"Employee not found in Company"<<endl;
+		    return 	this->Person::getName();
+		}
+	}
+}
+
 void Employee::setRole(ROLE Role){
 	this->Role=Role;
 }
@@ -31,10 +106,17 @@ void Employee::setRole(ROLE Role,Company *compObj){
 	Employee *Emp=findEmployeeInDep(*this,compObj);
 	if(!(Emp==nullptr)){
 	    Emp->setRole(Role);
+	    this->setRole(Role);
 	    return;
 	}else{
-		cout<<"Employee not found in Company"<<endl;
-		return;
+		Emp=findEmployeeInCompany(*this,compObj);
+		if(!(Emp==nullptr)){
+			Emp->setRole(Role);
+			this->setRole(Role);
+		}else{
+		    cout<<"Employee not found in Company"<<endl;
+		    return;
+		}
 	}
 
 }
@@ -46,8 +128,13 @@ ROLE Employee::getRole(Company *compObj){
 	if(!(Emp==nullptr)){
 	    return Emp->getRole();
 	}else{
-		cout<<"Employee Not found in Company"<<endl;
-        return 	NO_ROLE;
+		Emp=findEmployeeInCompany(*this,compObj);
+		if(!(Emp==nullptr)){
+			return Emp->getRole();
+		}else{
+			cout<<"Employee not found in Company"<<endl;
+            return 	NO_ROLE;
+		}
 	}
 }
 void Employee::setSalary(int salary){
@@ -57,10 +144,17 @@ void Employee::setSalary(int salary,Company *compObj){
 	Employee *Emp=findEmployeeInDep(*this,compObj);
 	if(!(Emp==nullptr)){
 	     Emp->setSalary(salary);
+	     this->setSalary(salary);
 	     return;
 	}else{
-		cout<<"Employee Not found in Company"<<endl;
-		return;
+		Emp=findEmployeeInCompany(*this,compObj);
+		if(!(Emp==nullptr)){
+			Emp->setSalary(salary);
+			this->setSalary(salary);
+		}else{
+			cout<<"Employee Not found in Company"<<endl;
+			return;
+		}
 	}
 }
 int Employee::getSalary(){
@@ -72,53 +166,58 @@ int Employee::getSalary(Company *compObj){
         return Emp->getSalary();
 
 	}else{
-		cout<<"Employee Not found in Company"<<endl;
-		return -99999;
+		Emp=findEmployeeInCompany(*this,compObj);
+		if(!(Emp==nullptr)){
+			 return Emp->getSalary();
+		}else{
+			cout<<"Employee Not found in Company"<<endl;
+			return -99999;
+		}
 	}
 }
-void Employee::setEmpId(int empID){
+void Employee::setEmpId(int empID){//private function
 	this->empID=empID;
 }
-void Employee::setEmpId(int empID,Company *compObj){
+/*void Employee::setEmpId(int empID,Company *compObj){
 	Employee *Emp=findEmployeeInDep(*this,compObj);
 		if(!(Emp==nullptr)){
 	        Emp->setEmpId(empID);
             return;
 		}else{
+			Emp=findEmployeeInCompany(*this,compObj);
+			if(!(Emp==nullptr)){
+				Emp->setEmpId(empID);
+				//compObj->getCeoEmp().setEmpId(empID,compObj);
+				//cout<<Emp->getEmpId()<<endl;
+				//cout<<Emp->getEmpId(compObj)<<endl;
+				//cout<<compObj->getCeoEmp().getEmpId(compObj)<<endl;
+				cout<<"employee id has been changed to "<<empID<<endl;
+				return;
+			}else{
 			cout<<"Employee Not found in Company"<<endl;
+			return;
+			}
 		}
+}*/
 
-	/*if(find(compObj->EmpsOfAllCompany.begin(), compObj->EmpsOfAllCompany.end(), empID) != compObj->EmpsOfAllCompany.end()){
-	     cout<<"empId already exists,empId must be unique"<<endl;
-	     int x;
-	     	while(1){
-	     		x=rand();
-	     		if(find(compObj->EmpsOfAllCompany.begin(), compObj->EmpsOfAllCompany.end(), empID) == compObj->EmpsOfAllCompany.end()){
-	     			this->empID=x;
-	     			return;
-	     		}
-	       }
-	}
-	else{
-		this->empID=empID;
-		return;
-	}
-*/
-
-}
 int Employee::getEmpId(){
     return this->empID;
 }
-int Employee::getEmpId(Company *compObj){
+/*int Employee::getEmpId(Company *compObj){
 	Employee *Emp=findEmployeeInDep(*this,compObj);
 	if(!(Emp==nullptr)){
 		return Emp->getEmpId();
-
-	}else{
-		cout<<"Employee Not found in Company"<<endl;
 	}
-	return -99999;
-}
+	else{
+		Emp=findEmployeeInCompany(*this,compObj);
+		if(!(Emp==nullptr)){
+			return Emp->getEmpId();
+		}else{
+			cout<<"Employee Not found in Company"<<endl;
+			return -99999;
+		}
+	}
+}*/
 bool Employee::operator == (Employee Emp){
 	return (Emp.getEmpId() == this->getEmpId());
 }
