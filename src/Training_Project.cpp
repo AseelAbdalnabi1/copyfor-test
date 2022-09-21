@@ -318,16 +318,35 @@ for(auto i=comp->getMainDeps()->at(0).getEmpsOfDep()->begin();i!=comp->getMainDe
 }
 cout<<"...............................................here..............................................."<<endl;
 
-cout<<dep1.getEmpsOfDep(comp)->size()<<endl;//0
-cout<<comp->getMainDeps()->at(0).getEmpsOfDep(comp)->size()<<endl;//0
+cout<<dep1.getEmpsOfDep(comp)->size()<<endl;//2
+cout<<comp->getMainDeps()->at(0).getEmpsOfDep()->size()<<endl;//2
 
-cout<<"...............................................here..............................................."<<endl;
-dep1.removeEmpFromDep(emp10, comp);
-dep1.removeEmpFromDep(emp11, comp);
-cout<<"...............................................here..............................................."<<endl;
-cout<<dep1.getEmpsOfDep(comp)->size()<<endl;//0
-cout<<comp->getMainDeps()->at(0).getEmpsOfDep(comp)->size()<<endl;//0
-cout<<"...............................................here..............................................."<<endl;
+cout<<"...............................................there..............................................."<<endl;
+cout<<comp->getMainDeps()->at(1).getEmpsOfDep()->size()<<endl;//0
+comp->getMainDeps()->at(1).addEmpToDep(emp12);//frontend
+comp->getMainDeps()->at(0).getSubDeps()->at(0).addEmpToDep(emp13);//dep5
+comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(0).addEmpToDep(emp14);
+comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(1).addEmpToDep(emp15);
+cout<<"...............................................there..............................................."<<endl;
+cout<<comp->getMainDeps()->at(1).getEmpsOfDep()->size()<<endl;//1
+cout<<comp->getMainDeps()->at(0).getSubDeps()->at(0).getEmpsOfDep()->size()<<endl;//1
+cout<<comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(0).getEmpsOfDep()->size()<<endl;//1
+cout<<comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(1).getEmpsOfDep()->size()<<endl;//1
+cout<<"...............................................started..............................................."<<endl;
+vector<Employee> vecEmp=comp->allEmployees();
+for(auto i=vecEmp.begin();i!=vecEmp.end();i++){
+	cout<<"name of employee : "<<(*i).getName()<<" , "<<"id of employee : "<<(*i).getEmpId()<<endl;
+}
+
+cout<<"size of allEmployees : "<<vecEmp.size()<<endl;
+cout<<"...............................................ended..............................................."<<endl;
+
+//dep1.removeEmpFromDep(emp10, comp);
+//dep1.removeEmpFromDep(emp11, comp);
+//cout<<"...............................................here..............................................."<<endl;
+//cout<<dep1.getEmpsOfDep(comp)->size()<<endl;//0
+//cout<<comp->getMainDeps()->at(0).getEmpsOfDep(comp)->size()<<endl;//0
+//cout<<"...............................................here..............................................."<<endl;
 
 
 

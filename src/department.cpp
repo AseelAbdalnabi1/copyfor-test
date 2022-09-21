@@ -103,9 +103,6 @@ void Department::setSubDeps(vector<Department> SubDeps,Company *compObj){
 string Department::getDepName(){
 	return this->DepName;
 }
-/*std::set<std::string> *Department::getNameOFDepartments(){
-    return this->NameOFDepartments;
-}*/
 bool Department::setDepName(string DepName){
 	if (this->NameOFDepartments.find(DepName) == this->NameOFDepartments.end()) {
 		this->NameOFDepartments.insert(DepName);
