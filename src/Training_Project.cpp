@@ -59,8 +59,8 @@ Department * findSubDepartment(Department neededDep, Department parentDep){//for
 Employee * findEmployeeInDep(Employee emp,Company *compObj){//for hirarichy
 	Employee * RequiredEmployee=nullptr;
 	for( auto i=compObj->getMainDeps()->begin();i!=compObj->getMainDeps()->end();i++){
-    	auto j=find((*i).getEmpsOfDep().begin(),(*i).getEmpsOfDep().end(),emp);
-    		if( j != (*i).getEmpsOfDep().end()) {
+    	auto j=find((*i).getEmpsOfDep()->begin(),(*i).getEmpsOfDep()->end(),emp);
+    		if( j != (*i).getEmpsOfDep()->end()) {
       		    return &(*j);
     	}
     	else if((*i).isAnySubDeps()==1){
@@ -78,8 +78,8 @@ Employee * findEmployeeInDep(Employee emp,Company *compObj){//for hirarichy
 Employee *findEmpInSubDep(Employee emp,Department dep){
 	Employee * RequiredEmployee=nullptr;
 	for(auto H=dep.getSubDeps()->begin(); H!=dep.getSubDeps()->end();H++){
-		auto j=find((*H).getEmpsOfDep().begin(),(*H).getEmpsOfDep().end(),emp);
-		if( j != (*H).getEmpsOfDep().end()) {
+		auto j=find((*H).getEmpsOfDep()->begin(),(*H).getEmpsOfDep()->end(),emp);
+		if( j != (*H).getEmpsOfDep()->end()) {
 		      		    return &(*j);
 		    	}
 		    	else if((*H).isAnySubDeps()==1){
@@ -285,7 +285,61 @@ cout<<findEmployeeInCompany(emp4,comp)->getName()<<endl;
 cout<<emp4.getName()<<endl;
 cout<<emp4.getName(comp)<<endl;
 cout<<"******************************//////////////////////////////////****************************"<<endl;
-		//.getDepName()<<endl;
+vector<Employee> emp18;
+emp18.push_back(emp10);
+emp18.push_back(emp11);
+comp->getMainDeps()->at(0).setEmpsOfDep(emp18);
+cout<<comp->getMainDeps()->at(0).getEmpsOfDep()->size()<<endl;//2
+for(auto i=comp->getMainDeps()->at(0).getEmpsOfDep()->begin();i!=comp->getMainDeps()->at(0).getEmpsOfDep()->end();i++){
+
+	cout<<(*i).getName()<<endl;
+
+}
+cout<<"...............................................here..............................................."<<endl;
+
+
+comp->getMainDeps()->at(0).removeEmpFromDep(emp10);
+comp->getMainDeps()->at(0).removeEmpFromDep(emp11);
+for(auto i=comp->getMainDeps()->at(0).getEmpsOfDep()->begin();i!=comp->getMainDeps()->at(0).getEmpsOfDep()->end();i++){
+
+	cout<<(*i).getName()<<endl;
+
+}
+cout<<"...............................................here..............................................."<<endl;
+
+dep1.addEmpToDep(emp10, comp);
+dep1.addEmpToDep(emp11, comp);
+//comp->getMainDeps()->at(0).addEmpToDep(emp10);
+//comp->getMainDeps()->at(0).addEmpToDep(emp11);
+for(auto i=comp->getMainDeps()->at(0).getEmpsOfDep()->begin();i!=comp->getMainDeps()->at(0).getEmpsOfDep()->end();i++){
+
+	cout<<(*i).getName()<<endl;
+
+}
+cout<<"...............................................here..............................................."<<endl;
+
+cout<<dep1.getEmpsOfDep(comp)->size()<<endl;//0
+cout<<comp->getMainDeps()->at(0).getEmpsOfDep(comp)->size()<<endl;//0
+
+cout<<"...............................................here..............................................."<<endl;
+dep1.removeEmpFromDep(emp10, comp);
+dep1.removeEmpFromDep(emp11, comp);
+cout<<"...............................................here..............................................."<<endl;
+cout<<dep1.getEmpsOfDep(comp)->size()<<endl;//0
+cout<<comp->getMainDeps()->at(0).getEmpsOfDep(comp)->size()<<endl;//0
+cout<<"...............................................here..............................................."<<endl;
+
+
+
+//for(auto i=comp->getMainDeps()->at(0).getEmpsOfDep()->begin();i!=comp->getMainDeps()->at(0).getEmpsOfDep()->end();i++){
+//
+//	cout<<(*i).getName()<<endl;
+//
+//}
+//cout<<comp->getMainDeps()->at(0).getEmpsOfDep().at(0).getName()<<endl;//emp10
+//cout<<comp->getMainDeps()->at(0).getEmpsOfDep().at(1).getName()<<endl;//emp11
+
+//.getDepName()<<endl;
 	/*
 	Company *comp=comp->getCompObject();
 	Department dep1("backend dev",1);

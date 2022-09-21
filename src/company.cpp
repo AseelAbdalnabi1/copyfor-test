@@ -72,9 +72,9 @@ void Company::removeMainDepFromCompany(Department dep){
 }
 void allEmpsFun(Department dep,Company *obj ){
 	cout<<"at the beging of the allEmpsFun "<<dep.getDepName()<<endl;
-	cout << "number of emps in department: " <<dep.getEmpsOfDep().size()<<endl;
-	vector<Employee> depart=dep.getEmpsOfDep();
-     obj->allEmpsOfDepartments.insert(obj->allEmpsOfDepartments.end(), depart.begin(),depart.end() );//stops here
+	cout << "number of emps in department: " <<dep.getEmpsOfDep()->size()<<endl;
+	vector<Employee> *depart=dep.getEmpsOfDep();
+     obj->allEmpsOfDepartments.insert(obj->allEmpsOfDepartments.end(), depart->begin(),depart->end() );//stops here
 	//std::copy (dep.getEmpsOfDep().begin(), dep.getEmpsOfDep().end(), back_inserter(obj->allEmps));
 	cout<<"***************after copy"<<endl;
 	cout<<obj->allEmpsOfDepartments.size()<<"   size of all emps inside the fun"<<endl;

@@ -25,8 +25,8 @@ private:
 	//std::set<std::string> * getNameOFDepartments();
 public:
 	Department(std::string DepName,std::vector<Department> SubDeps={},std::vector<Employee> EmpsOfDep={});
-	std::vector <Employee> getEmpsOfDep();
-	std::vector <Employee> getEmpsOfDep(Company *compObj);
+	std::vector <Employee> *getEmpsOfDep();
+	std::vector <Employee> *getEmpsOfDep(Company *compObj);
 	void setEmpsOfDep(std::vector <Employee> EmpsOfDep);
 	void setEmpsOfDep(std::vector <Employee> EmpsOfDep,Company *compObj);
 	bool isAnySubDeps();

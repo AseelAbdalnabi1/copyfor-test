@@ -30,10 +30,10 @@ Department::Department(string DepName,vector<Department> SubDeps,vector<Employee
 		Department::~Department();
 	}
 }
-vector <Employee> Department::getEmpsOfDep(){
-	return this->EmpsOfDep;
+vector <Employee> *Department::getEmpsOfDep(){
+	return &(this->EmpsOfDep);
 }
-vector <Employee> Department::getEmpsOfDep(Company *compObj){
+vector <Employee> *Department::getEmpsOfDep(Company *compObj){
 	Department *dep=findDepartment(*this,compObj);
 	if(!(dep==nullptr)){
 		return dep->getEmpsOfDep();
@@ -164,7 +164,7 @@ bool Department::addEmpToDep(Employee emp){
 	auto i=find(this->EmpsOfDep.begin(), this->EmpsOfDep.end(), emp);
 		if(i == this->EmpsOfDep.end()){
 	        this->EmpsOfDep.push_back(emp);
-	        cout<<"employee has exists in department"<<endl;
+	        cout<<"employee has successfully added in department"<<endl;
 	        return true;
 	}else if(i != this->EmpsOfDep.end()){
 		cout<<"employee already exists in department"<<endl;
