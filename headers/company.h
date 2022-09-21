@@ -40,7 +40,7 @@ public:
     void removeEmpFromCompany(Employee emp);
     std::vector<Employee> allEmployees();
     void empsWithSameSalary(Company *compObj);
-    void empsOfMultiDeps();
+    std::vector<Employee> empsOfMultiDeps();
     void loop_IN_Deps();
     void floatingEmps();
 

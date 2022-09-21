@@ -339,7 +339,25 @@ for(auto i=vecEmp.begin();i!=vecEmp.end();i++){
 }
 
 cout<<"size of allEmployees : "<<vecEmp.size()<<endl;
-cout<<"...............................................ended..............................................."<<endl;
+cout<<"...............................................ended..............................................."<<endl<<endl;
+
+
+cout<<"...............................................started..............................................."<<endl;
+cout<<comp->getMainDeps()->at(2).getEmpsOfDep()->size()<<endl;//0
+cout<<comp->getMainDeps()->at(3).getEmpsOfDep()->size()<<endl;//0
+comp->getMainDeps()->at(2).addEmpToDep(emp14);
+comp->getMainDeps()->at(2).addEmpToDep(emp15);
+comp->getMainDeps()->at(3).addEmpToDep(emp12);
+cout<<comp->getMainDeps()->at(2).getEmpsOfDep()->size()<<endl;//2
+cout<<comp->getMainDeps()->at(3).getEmpsOfDep()->size()<<endl;//1
+cout<<"...............................................testing emps of multi_deps APIs.............................................."<<endl;
+vector<Employee> EmpMul=comp->empsOfMultiDeps();
+for(auto i=EmpMul.begin();i!=EmpMul.end();i++){
+	cout<<"name of employee : "<<(*i).getName()<<" , "<<"empId: "<<(*i).getEmpId()<<endl;
+}
+cout<<"size is:"<<EmpMul.size()<<endl;
+cout<<"...............................................testing emps of multi_deps APIs---ending.............................................."<<endl;
+
 
 //dep1.removeEmpFromDep(emp10, comp);
 //dep1.removeEmpFromDep(emp11, comp);

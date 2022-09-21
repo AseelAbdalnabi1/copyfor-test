@@ -8,6 +8,7 @@
 #include "../headers/hash.h"
 #include <thread>
 #include <algorithm>
+#include <set>
 using namespace std;
 
  Company * Company::compObject;
@@ -116,7 +117,7 @@ void Company::empsWithSameSalary(Company *compObj){
 
 
 		   Hash hashForEmpsWithSameSalary(compObj->EmpsOfAllCompany.size());
-		   for(auto i=compObj->EmpsOfAllCompany.begin();i!=compObj->allEmpsOfDepartments.end();i++){
+		   for(auto i=compObj->EmpsOfAllCompany.begin();i!=compObj->EmpsOfAllCompany.end();i++){
 		    hashForEmpsWithSameSalary.insertItem((*i));
 		   }
 		   hashForEmpsWithSameSalary.displayEmployeesWithSameSalary();
@@ -148,8 +149,18 @@ void Company::removeEmpFromCompany(Employee emp){//employees who are in company 
 		cout<<"employee with empID number: "<<emp.getEmpId()<<"is not part of the company"<<endl;
 	}
 }
-void Company::empsOfMultiDeps(){
-
+vector<Employee> Company::empsOfMultiDeps(){
+	vector<Employee>  EmpsOfDeps=allEmployees();
+	vector<Employee> empsOfMultiDeps_Results={};
+	set<int> SetOfEmps;
+	for(auto i=EmpsOfDeps.begin();i!=EmpsOfDeps.end();i++){
+		if(SetOfEmps.find((*i).getEmpId())==SetOfEmps.end()){
+			SetOfEmps.insert((*i).getEmpId());
+		}else{
+			empsOfMultiDeps_Results.push_back((*i));
+		}
+	}
+	return empsOfMultiDeps_Results;
 }//using sets or hash or maps
 void Company::loop_IN_Deps(){
 
