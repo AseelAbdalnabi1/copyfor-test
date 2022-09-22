@@ -77,7 +77,7 @@ vector<Department> *Department::getSubDeps(){
 vector<Department> *Department::getSubDeps(Company *compObj){
 	Department *dep=findDepartment(*this,compObj);
 	if(dep!=nullptr){//parent found
-		cout<<"hhhhhhhhhhhh"<<endl;
+		cout<<"in Department::getSubDeps : the parent department ( "<< this->getDepName() <<" )is found"<<endl;
 			return dep->getSubDeps();
 		}
 	else{//parent not found
@@ -212,13 +212,19 @@ void Department::RemoveSubDep(Department department,Company *compObj){
 	}
 }
 void Department::addSubDep(Department dep){
-	this->getSubDeps()->push_back(dep);
-	cout<<"sub-department added successfully"<<endl;
+	SubDeps.push_back(dep);
+	cout<<"sub-department ("<<dep.getDepName()<< ")added successfully"<<endl;
+
 }
 void Department::addSubDep(Department department,Company *compObj){
 	Department *dep=findDepartment(*this,compObj);
-		if(!(dep==nullptr)){
+	cout<<"in the add subDep :  "<<this->getDepName()<<endl;;
+		if(dep!=nullptr){
+			cout<<"Department::addSubDep the parent department ("<<this->getDepName()<<") is found"<<endl;
 			dep->addSubDep(department);
+			cout<<"name of parent dep : "<<dep->getDepName()<<endl;;
+			cout<<"size of sub deps  : "<<dep->getSubDeps()->size()<<endl;
+			cout<<"name of sub deps  : "<<dep->getSubDeps()->at(0).getDepName()<<endl;
 			this->addSubDep(department);
 			return;
 		}else{
@@ -232,6 +238,13 @@ Department::~Department(){
 }
 bool Department::operator == (Department depObj) {
         if(depObj.getDepName() == this->getDepName()) {
+        	return true;
+        } else {
+        	return false;
+        }
+    }
+bool Department::operator == (string nameOfDep) {
+        if(nameOfDep == this->getDepName()) {
         	return true;
         } else {
         	return false;

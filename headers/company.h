@@ -11,6 +11,7 @@
 #include "employee.h"
 #include <iostream>
 #include <vector>
+#include <set>
 class Employee;
 class Department;
 
@@ -19,6 +20,7 @@ private:
     Employee *CeoEmp=NULL;
     std::vector<Department> MainDeps;
     static Company *compObject;
+    static std::set<std::string> ChildsOfDeps;
     Company();
     ~Company();
 public:
@@ -41,7 +43,8 @@ public:
     std::vector<Employee> allEmployees();
     void empsWithSameSalary(Company *compObj);
     std::vector<Employee> empsOfMultiDeps();
-    void loop_IN_Deps();
+    bool loop_IN_Deps_hand(Department dep);
+    bool loop_IN_Deps();
     void floatingEmps();
 
 

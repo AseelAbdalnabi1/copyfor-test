@@ -15,6 +15,7 @@ using namespace std;
  vector<Employee> Company::allEmpsOfDepartments  = {};//ALL EMPS FILLED BY A FUNCTION IN COMPANY
  vector<Employee> Company::EmpsOfAllCompany = {};
  vector<Department>  Company::DepsOfAllCompany={};
+ std::set<std::string> Company::ChildsOfDeps={};
 Company::Company(){
 	this->CeoEmp=new Employee("Tareq",35,CEO,50000);
     cout<<"ceo in const"<<endl;
@@ -161,9 +162,46 @@ vector<Employee> Company::empsOfMultiDeps(){
 	}
 	return empsOfMultiDeps_Results;
 }//using sets or hash or maps
-void Company::loop_IN_Deps(){
+bool Company::loop_IN_Deps(){
+	if(ChildsOfDeps.empty()==0){
+		ChildsOfDeps.clear();
+	}
+	bool result;
+	for(auto it1=this->getMainDeps()->begin();it1!=this->getMainDeps()->end();it1++){
+		for(auto it2=(*it1).getSubDeps()->begin();it2!=(*it1).getSubDeps()->end();it2++){//children of main deps
+			if(ChildsOfDeps.find((*it2).getDepName())==ChildsOfDeps.end()){
+				ChildsOfDeps.insert((*it2).getDepName());
+			}else{
+				return true;
+			}
+			if((*it2).isAnySubDeps()==1){
+				result=loop_IN_Deps_hand((*it2));
+				if(result==1){
+					return true;
+				}
+			}
 
+		}
+	}
+	return false;
 }//using sets or hash or maps
+bool Company::loop_IN_Deps_hand(Department 	ParentDep){
+	bool result;
+	for(auto it1=ParentDep.getSubDeps()->begin();it1!=ParentDep.getSubDeps()->end();it1++){
+		if(ChildsOfDeps.find((*it1).getDepName())==ChildsOfDeps.end()){
+				ChildsOfDeps.insert((*it1).getDepName());
+		}else{
+			return true;//child already exists
+		}
+		if((*it1).isAnySubDeps()==1){
+			result=loop_IN_Deps_hand((*it1));
+			if(result==1){
+				return true;
+			}
+		}
+	}
+	return false;
+}
 void Company::floatingEmps(){
 
 }//using sets or hash or maps

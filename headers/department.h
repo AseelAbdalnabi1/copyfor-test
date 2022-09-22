@@ -43,6 +43,7 @@ public:
 	void addSubDep(Department department);
 	void addSubDep(Department department,Company *compObj);
 	bool operator == (Department depObj);
+	bool operator == (std::string nameOfDep);
 	~Department();
 };
 

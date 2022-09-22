@@ -16,8 +16,10 @@ class Company;
 class Employee;
 class Department;
 class Person;
+static vector<Department> test={};
 Department * findSubDepartment(Department neededDep, Department parentDep);
 Employee* findEmpInSubDep(Employee emp,Department dep);
+void TestFunctionToSeeAllTheCompanyDepsHand(Department dep,Company *compObj);
 
 Department * findDepartment(Department neededDep,Company *compObj){
 	auto i=find(compObj->getMainDeps()->begin(), compObj->getMainDeps()->end(),neededDep );
@@ -102,6 +104,31 @@ Employee *findEmployeeInCompany(Employee emp,Company *compObj){
 	else{
 		cout<<"employee not found in company"<<endl;
 		return nullptr;
+	}
+}
+void TestFunctionToSeeAllTheCompanyDeps(Company *compObj){//all department regardless if they are repeated or not
+	test.clear();
+	cout<<"in the begining of test"<<endl;
+	for(auto i=compObj->getMainDeps()->begin();i!=compObj->getMainDeps()->end();i++){
+		cout<<"in the loop before push in test vector"<<endl;
+		       test.push_back((*i));
+		       cout<<"in the loop AFTER push in test vector"<<endl;
+		       cout<<"------------------------------------"<<endl;
+		       cout<<"in test: the department pushed : "<<(*i).getDepName()<<endl;
+		       if((*i).isAnySubDeps()==1){
+		    	   TestFunctionToSeeAllTheCompanyDepsHand((*i),compObj);
+		       }
+		}
+	 for(auto it=test.begin();it!=test.end();it++){
+		 cout<<"department name :"<<(*it).getDepName()<<endl;
+	 }
+}
+void TestFunctionToSeeAllTheCompanyDepsHand(Department dep,Company *compObj){
+	for( auto j=dep.getSubDeps()->begin();j!=dep.getSubDeps()->end();j++){
+		 test.push_back((*j));
+		 if((*j).isAnySubDeps()==1){
+			 TestFunctionToSeeAllTheCompanyDepsHand((*j),compObj);
+		 }
 	}
 }
 int main() {
@@ -359,7 +386,54 @@ cout<<"size is:"<<EmpMul.size()<<endl;
 cout<<"...............................................testing emps of multi_deps APIs---ending.............................................."<<endl;
 cout<<"...............................................testing emps of sameSalary APIs.............................................."<<endl;
 comp->empsWithSameSalary(comp);
+cout<<endl;
+cout<<endl;
+cout<<"...............................................testing emps of loopInDeps API strarting.............................................."<<endl;
+cout<<"do we have loops in deps?    "<<comp->loop_IN_Deps()<<endl;//0
+dep9.addSubDep(dep6, comp);
+TestFunctionToSeeAllTheCompanyDeps(comp);
+cout<<"hello"<<endl;
+cout<<dep6.getSubDeps(comp)->size();
+//cout<<dep9.getSubDeps()->size()<<endl;
+//cout<<dep9.getSubDeps()->size()<<endl;
+cout<<"................................................................hi........................................................."<<endl;
+/*Department *dep=findDepartment(dep9,comp);
+cout<<dep->getDepName()<<endl;//dep9
 
+cout<<dep->getSubDeps(comp)->size()<<endl;*/
+cout<<"..................................................................there......................................................."<<endl;
+
+//dep9.addSubDep(dep6, comp);
+cout<<"....................................................................i am ....................................................."<<endl;
+
+TestFunctionToSeeAllTheCompanyDeps(comp);
+cout<<".......................................................................here.................................................."<<endl;
+//cout<<"before"<<endl;
+//dep=findDepartment(dep6,comp);
+//cout<<"after"<<endl;
+
+//cout<<dep->getDepName()<<"  "<<dep->getSubDeps()->size()<<endl;
+cout<<"..................................................hhhhhhhhhhhhhhhhhhhh......................................................................."<<endl;
+cout<<comp->getMainDeps()->at(2).getSubDeps()->at(0).getDepName()<<endl;
+cout<<comp->getMainDeps()->at(2).getSubDeps()->at(0).getSubDeps()->size()<<endl;
+cout<<comp->getMainDeps()->at(2).getSubDeps(comp)->at(0).getSubDeps(comp)->size()<<endl;
+comp->getMainDeps()->at(2).getSubDeps()->at(0).addSubDep(dep6,comp);
+TestFunctionToSeeAllTheCompanyDeps(comp);
+cout<<"do we have loops in deps?    "<<comp->loop_IN_Deps()<<endl;//1
+comp->getMainDeps()->at(2).getSubDeps()->at(0).RemoveSubDep(dep6);
+dep9.RemoveSubDep(dep6, comp);
+comp->getMainDeps()->at(2).getSubDeps()->at(0).setSubDeps(departs);
+//dep9.setSubDeps(departs,comp);
+
+cout<<dep9.getSubDeps()->size()<<"   "<<dep9.getSubDeps(comp)->size()<<"   "<<comp->getMainDeps()->at(2).getSubDeps(comp)->at(0).getSubDeps(comp)->size()<<endl;
+cout<<"do we have loops in deps?    "<<comp->loop_IN_Deps()<<endl;//0
+/*cout<<"size of sub deps  : "<<dep->getSubDeps()->size()<<endl;
+			//cout<<"name of sub deps  : "<<dep->getSubDeps()->at(0).getDepName()<<endl;
+
+cout<<"size of dep9 supDeps in company  : "<<comp->getMainDeps()->at(2).getSubDeps()->at(0).getSubDeps()->size()<<endl;
+cout<<"do we have loops in deps?    "<<comp->loop_IN_Deps()<<endl;//1
+//dep9.RemoveSubDep(dep6, comp);
+cout<<"do we have loops in deps?    "<<comp->loop_IN_Deps()<<endl;//0
 //dep1.removeEmpFromDep(emp10, comp);
 //dep1.removeEmpFromDep(emp11, comp);
 //cout<<"...............................................here..............................................."<<endl;
@@ -378,7 +452,7 @@ comp->empsWithSameSalary(comp);
 //cout<<comp->getMainDeps()->at(0).getEmpsOfDep().at(1).getName()<<endl;//emp11
 
 //.getDepName()<<endl;
-	/*
+
 	Company *comp=comp->getCompObject();
 	Department dep1("backend dev",1);
 	cout<<dep1.getDepName()<<"  "<<dep1.getDepNum()<<endl;
