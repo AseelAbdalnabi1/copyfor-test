@@ -113,9 +113,8 @@ vector<Employee> Company::allEmployees(){
 }//using threads
 
 void Company::empsWithSameSalary(Company *compObj){
+	cout<<compObj->EmpsOfAllCompany.size()<<endl;
 	if(compObj->EmpsOfAllCompany.size()!=0){
-
-
 		   Hash hashForEmpsWithSameSalary(compObj->EmpsOfAllCompany.size());
 		   for(auto i=compObj->EmpsOfAllCompany.begin();i!=compObj->EmpsOfAllCompany.end();i++){
 		    hashForEmpsWithSameSalary.insertItem((*i));

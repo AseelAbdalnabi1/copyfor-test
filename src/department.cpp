@@ -174,8 +174,9 @@ void Department::addEmpToDep(Employee emp,Company *compObj){
 	if(!(dep==nullptr)){
 		dep->addEmpToDep(emp);
 		Employee* EmpPtr=findEmployeeInCompany(emp,compObj);
-		if(EmpPtr!=nullptr){
+		if(EmpPtr==nullptr){
 		compObj->EmpsOfAllCompany.push_back(emp);
+		cout<<"employee added to company emp name:"<<emp.getName()<<endl;
 		return;
 		}else{
 			cout<<"employee already found in EmpsOfAllCompany"<<endl;

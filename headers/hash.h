@@ -7,11 +7,11 @@ using namespace std;
 class Hash
 {
 private:
- int BUCKET;
- list<Employee> *table;
+ int BUCKET;//number of cells
+ list<Employee> *table;//for collision handling -chaining
 public:
  Hash(int BUCKET);
  void insertItem(Employee Emp);
- int hashFunction(int x);
+ int hashFunction(int empSalary);
  void displayEmployeesWithSameSalary();
 };

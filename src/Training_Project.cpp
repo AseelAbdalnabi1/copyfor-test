@@ -188,7 +188,7 @@ cout<<comp->EmpsOfAllCompany.size()<<endl;
 cout<<"******************************"<<endl;
 comp->removeEmpFromCompany(emp1);
 comp->removeEmpFromCompany(emp2);
-cout<<comp->EmpsOfAllCompany.size()<<endl;
+cout<<comp->EmpsOfAllCompany.size()<<endl;//3
 cout<<"******************************"<<endl;
 Department dep9("dep9");
 Department dep8("dep8");
@@ -264,12 +264,12 @@ cout<<dep4.isAnySubDeps()<<endl;//0
 cout<<comp->getMainDeps()->at(3).isAnySubDeps()<<endl;//1
 cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->size()<<endl;//2
 //Employee(std::string Name,float Age ,ROLE Role,int Salary);
-Employee emp10("emp10",60.0,HR,51511);
-Employee emp11("emp11",60.0,MANAGER,511);
-Employee emp12("emp12",60.0,HR,51511);
-Employee emp13("emp13",60.0,HR,51511);
-Employee emp14("emp14",60.0,HR,51511);
-Employee emp15("emp15",60.0,HR,51511);
+Employee emp10("emp10",60.0,HR,100);
+Employee emp11("emp11",60.0,MANAGER,100);
+Employee emp12("emp12",60.0,HR,200);
+Employee emp13("emp13",60.0,HR,200);
+Employee emp14("emp14",60.0,HR,300);
+Employee emp15("emp15",60.0,HR,300);
 Employee emp16("emp16",60.0,HR,51511);
 Employee emp17("emp17",60.0,HR,51511);
 cout<<comp->getMainDeps()->at(3).getSubDeps(comp)->at(0).getDepName()<<endl;
@@ -305,7 +305,7 @@ for(auto i=comp->getMainDeps()->at(0).getEmpsOfDep()->begin();i!=comp->getMainDe
 	cout<<(*i).getName()<<endl;
 
 }
-cout<<"...............................................here..............................................."<<endl;
+cout<<"............................emp...................here..............emp................................."<<endl;
 
 dep1.addEmpToDep(emp10, comp);
 dep1.addEmpToDep(emp11, comp);
@@ -323,10 +323,10 @@ cout<<comp->getMainDeps()->at(0).getEmpsOfDep()->size()<<endl;//2
 
 cout<<"...............................................there..............................................."<<endl;
 cout<<comp->getMainDeps()->at(1).getEmpsOfDep()->size()<<endl;//0
-comp->getMainDeps()->at(1).addEmpToDep(emp12);//frontend
-comp->getMainDeps()->at(0).getSubDeps()->at(0).addEmpToDep(emp13);//dep5
-comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(0).addEmpToDep(emp14);
-comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(1).addEmpToDep(emp15);
+comp->getMainDeps()->at(1).addEmpToDep(emp12,comp);//frontend
+comp->getMainDeps()->at(0).getSubDeps()->at(0).addEmpToDep(emp13,comp);//dep5
+comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(0).addEmpToDep(emp14,comp);
+comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(1).addEmpToDep(emp15,comp);
 cout<<"...............................................there..............................................."<<endl;
 cout<<comp->getMainDeps()->at(1).getEmpsOfDep()->size()<<endl;//1
 cout<<comp->getMainDeps()->at(0).getSubDeps()->at(0).getEmpsOfDep()->size()<<endl;//1
@@ -357,7 +357,8 @@ for(auto i=EmpMul.begin();i!=EmpMul.end();i++){
 }
 cout<<"size is:"<<EmpMul.size()<<endl;
 cout<<"...............................................testing emps of multi_deps APIs---ending.............................................."<<endl;
-
+cout<<"...............................................testing emps of sameSalary APIs.............................................."<<endl;
+comp->empsWithSameSalary(comp);
 
 //dep1.removeEmpFromDep(emp10, comp);
 //dep1.removeEmpFromDep(emp11, comp);
