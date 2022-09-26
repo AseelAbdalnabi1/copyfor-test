@@ -202,8 +202,27 @@ bool Company::loop_IN_Deps_hand(Department 	ParentDep){
 	}
 	return false;
 }
-void Company::floatingEmps(){
-
+bool Company::floatingEmps(){
+	vector<Employee> listOfFloatingEmps={};
+	vector<Employee> AllEmpsOfDeps=allEmployees();
+	for(auto i=this->EmpsOfAllCompany.begin(); i!= this->EmpsOfAllCompany.end();i++){
+		if(find(AllEmpsOfDeps.begin(),AllEmpsOfDeps.end(),(*i))==AllEmpsOfDeps.end()){
+			if((*i).getRole(this)!="CEO"){
+			listOfFloatingEmps.push_back((*i));
+			}
+		}
+	}
+	if(!listOfFloatingEmps.empty()){
+		cout<<"-----------------------------------------------------------------------"<<endl;
+		cout<<"Floating employees in company are: "<<endl;
+		for(auto i=listOfFloatingEmps.begin();i!=listOfFloatingEmps.end();i++){
+			cout<<"Employee name : "<<(*i).getName()<<"  |  Employee ID : "<<(*i).getEmpId()<<endl;
+		}
+		cout<<"-----------------------------------------------------------------------"<<endl;
+		return true;
+	}
+	cout<<"Company doesn't have any floating employees "<<endl;
+	return false;
 }//using sets or hash or maps
 Company::~Company(){
 	cout<<"Company has deleted successfully, in Company destructor"<<endl;

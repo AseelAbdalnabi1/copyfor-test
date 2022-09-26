@@ -13,8 +13,8 @@ using namespace std;
 class Company;
 class Employee;
 
-Employee * findEmployeeInDep(Employee emp,Company *compObj);
-Employee *findEmpInSubDep(Employee emp,Department dep);
+
+Employee * findEmployeeInDep(Employee NeededEmp,Company *compObj,vector<Department>* RangeOfDeps);
 Employee *findEmployeeInCompany(Employee emp,Company *compObj);
 int Employee::ID=0;
 Employee::Employee(string Name,float Age ,ROLE Role,int Salary):Person(Name,Age){
@@ -36,7 +36,7 @@ void Employee::setAge(float Age){
 	Person::setAge(Age);
 }
 void Employee::setAge(float Age,Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
+	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 	    Emp->Person::setAge(Age);
 	    this->Person::setAge(Age);
@@ -54,7 +54,7 @@ void Employee::setAge(float Age,Company *compObj){
 
 }
 float Employee::getAge(Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
+	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 		return Emp->Person::getAge();
 	}else{
@@ -68,7 +68,7 @@ float Employee::getAge(Company *compObj){
 	}
 }
 void Employee::setName(std::string Name,Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
+	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 	    Emp->Person::setName(Name);
 	    this->setName(Name);
@@ -85,7 +85,7 @@ void Employee::setName(std::string Name,Company *compObj){
 	}
 }
 string Employee::getName(Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
+	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 		return Emp->Person::getName();
 	}else{
@@ -103,7 +103,7 @@ void Employee::setRole(ROLE Role){
 	this->Role=Role;
 }
 void Employee::setRole(ROLE Role,Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
+	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 	    Emp->setRole(Role);
 	    this->setRole(Role);
@@ -140,7 +140,7 @@ string Employee::getRole(){
 
 }
 string Employee::getRole(Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
+	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 	    return Emp->getRole();
 	}else{
@@ -157,7 +157,7 @@ void Employee::setSalary(int salary){
 	this->Salary=salary;
 }
 void Employee::setSalary(int salary,Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
+	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 	     Emp->setSalary(salary);
 	     this->setSalary(salary);
@@ -177,7 +177,7 @@ int Employee::getSalary(){
 		return this->Salary;
 }
 int Employee::getSalary(Company *compObj){
-	Employee *Emp=findEmployeeInDep(*this,compObj);
+	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
         return Emp->getSalary();
 

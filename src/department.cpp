@@ -13,10 +13,10 @@
 #include <algorithm>
 using namespace std;
 class Company;
-Department * findSubDepartment(Department neededDep, Department parentDep);
-Department * findDepartment(Department neededDep,Company *compObj);
-Employee * findEmployeeInDep(Employee emp,Company *compObj);
-Employee *findEmpInSubDep(Employee emp,Department dep);
+Employee * findEmployeeInDep(Employee NeededEmp,Company *compObj,vector<Department>* RangeOfDeps);
+
+Department * findDepartment(Department neededDep,Company *compObj,vector<Department> *RangeOfDeps);
+
 Employee *findEmployeeInCompany(Employee emp,Company *compObj);
 std::set<std::string> Department::NameOFDepartments ={};
 Department::Department(string DepName,vector<Department> SubDeps,vector<Employee> EmpsOfDep){
@@ -34,7 +34,7 @@ vector <Employee> *Department::getEmpsOfDep(){
 	return &(this->EmpsOfDep);
 }
 vector <Employee> *Department::getEmpsOfDep(Company *compObj){
-	Department *dep=findDepartment(*this,compObj);
+	Department *dep=findDepartment(*this,compObj,compObj->getMainDeps());
 	if(!(dep==nullptr)){
 		return dep->getEmpsOfDep();
 	}
@@ -48,7 +48,7 @@ void Department::setEmpsOfDep(vector <Employee> EmpsOfDep){
 	this->EmpsOfDep=EmpsOfDep;
 }
 void Department::setEmpsOfDep(vector <Employee> EmpsOfDep,Company *compObj){
-	Department *dep=findDepartment(*this,compObj);
+	Department *dep=findDepartment(*this,compObj,compObj->getMainDeps());
 	if(!(dep==nullptr)){
 		dep->setEmpsOfDep(EmpsOfDep);//added to department
 		this->setEmpsOfDep(EmpsOfDep);
@@ -75,9 +75,9 @@ vector<Department> *Department::getSubDeps(){
     return &(SubDeps);
 }
 vector<Department> *Department::getSubDeps(Company *compObj){
-	Department *dep=findDepartment(*this,compObj);
+	Department *dep=findDepartment(*this,compObj,compObj->getMainDeps());
 	if(dep!=nullptr){//parent found
-		cout<<"in Department::getSubDeps : the parent department ( "<< this->getDepName() <<" )is found"<<endl;
+		//cout<<"in Department::getSubDeps : the parent department ( "<< this->getDepName() <<" )is found"<<endl;
 			return dep->getSubDeps();
 		}
 	else{//parent not found
@@ -89,8 +89,10 @@ void Department::setSubDeps(vector<Department> SubDeps){
 	this->SubDeps=SubDeps;
 }
 void Department::setSubDeps(vector<Department> SubDeps,Company *compObj){
-	Department *dep=findDepartment(*this,compObj);
+	Department *dep=findDepartment(*this,compObj,compObj->getMainDeps());
+	cout<<dep->getDepName()<<endl;
 	if(!(dep==nullptr)){
+		cout<<"in setSubDep: "<<dep->getDepName()<<endl;
 			dep->setSubDeps(SubDeps);
 			this->setSubDeps(SubDeps);
 		}
@@ -126,11 +128,11 @@ bool Department::removeEmpFromDep(Employee emp){
 
 }
 void Department::removeEmpFromDep(Employee emp,Company *compObj){
-	Department *dep=findDepartment(*this,compObj);//we try to find the department(search for the required department)
+	Department *dep=findDepartment(*this,compObj,compObj->getMainDeps());//we try to find the department(search for the required department)
 	if(!(dep==nullptr)){//the required department is found
 		bool deletedFromDep=dep->removeEmpFromDep(emp);//we make sure the emp is found in the required department and has been deleted
 		if(deletedFromDep==1){
-		Employee *empInOtherDep=findEmployeeInDep(emp,compObj);//we check if the emp belongs to another department in company---using findEmployeeInDep function
+		Employee *empInOtherDep=findEmployeeInDep(emp,compObj,compObj->getMainDeps());//we check if the emp belongs to another department in company---using findEmployeeInDep function
 		if(empInOtherDep==nullptr){	//if emp does not  belong to another dep---we won't delete it form EmpsOfAllCompany
 			Employee* EmpPtr=findEmployeeInCompany(emp,compObj);
 			if(EmpPtr!=nullptr){
@@ -170,7 +172,7 @@ bool Department::addEmpToDep(Employee emp){
     return false;
 }
 void Department::addEmpToDep(Employee emp,Company *compObj){
-	Department *dep=findDepartment(*this,compObj);
+	Department *dep=findDepartment(*this,compObj,compObj->getMainDeps());
 	if(!(dep==nullptr)){
 		dep->addEmpToDep(emp);
 		Employee* EmpPtr=findEmployeeInCompany(emp,compObj);
@@ -201,7 +203,7 @@ void Department::RemoveSubDep(Department department){
      }
 	}
 void Department::RemoveSubDep(Department department,Company *compObj){
-	Department *dep=findDepartment(*this,compObj);
+	Department *dep=findDepartment(*this,compObj,compObj->getMainDeps());
 	if(!(dep==nullptr)){
 		dep->RemoveSubDep(department);
 		this->RemoveSubDep(department);
@@ -217,7 +219,7 @@ void Department::addSubDep(Department dep){
 
 }
 void Department::addSubDep(Department department,Company *compObj){
-	Department *dep=findDepartment(*this,compObj);
+	Department *dep=findDepartment(*this,compObj,compObj->getMainDeps());
 	cout<<"in the add subDep :  "<<this->getDepName()<<endl;;
 		if(dep!=nullptr){
 			cout<<"Department::addSubDep the parent department ("<<this->getDepName()<<") is found"<<endl;

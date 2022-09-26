@@ -45,7 +45,7 @@ public:
     std::vector<Employee> empsOfMultiDeps();
     bool loop_IN_Deps_hand(Department dep);
     bool loop_IN_Deps();
-    void floatingEmps();
+    bool floatingEmps();
 
 
 };
