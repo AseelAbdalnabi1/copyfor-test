@@ -28,18 +28,18 @@ int Hash::hashFunction(int empSalary){
 }
 void Hash::displayEmployeesWithSameSalary() {
 	cout<<"number of buckets : "<<BUCKET<<endl;
-	for(auto it=Company::EmpsOfAllCompany.begin();it!=Company::EmpsOfAllCompany.end();it++){
+	/*for(auto it=Company::EmpsOfAllCompany.begin();it!=Company::EmpsOfAllCompany.end();it++){
 		cout<<"Employee name & Salary : "<<(*it).getName()<<" | "<<(*it).getSalary()<<endl;
 		cout<<"-----------------------------------------------"<<endl;
-	}
+	}*/
 	for (int i = 0; i < BUCKET; i++) {
 	//cout<<i<<endl;
 
 		if(table[i].size()>1){
-			cout<<"Employees with around same salary  are:-"<<endl;
+			cout<<"Employees with same salary  are:-"<<endl;
 			for(auto j=table[i].begin();j!=table[i].end();j++)
 			{
-				cout<<"Employee name & ID : "<<(*j).getName()<<" | "<<(*j).getEmpId()<<endl;
+				cout<<"Employee name , salary & ID: "<<(*j).getName()<<" | "<<	j->getSalary() <<" | "<<(*j).getEmpId()<<endl;
 			}
 		cout<<"-------------------------------------------------"<<endl;
 		}

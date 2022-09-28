@@ -85,19 +85,37 @@ int main() {
 	Department dep1("backend");
 	Department dep5("dep5");
 	Department dep6("dep6");
-
+	Department dep2("dep2");
 	dep5.addSubDep(dep6);
 	dep1.addSubDep(dep5);
     comp->addMainDepToCompany(dep1);
+    comp->addMainDepToCompany(dep2);
     cout<<comp->getMainDeps()->size()<<endl;
     cout<<comp->getMainDeps()->at(0).getSubDeps()->size()<<endl;
     TestFunctionToSeeAllTheCompanyDeps(comp);
     Employee emp1("emp1",16,MANAGER,6000);
     Employee emp2("emp2",25,HR,4000);
     Employee emp3("emp3",24,MANAGER,2300);
+    Employee emp4("emp4",24,MANAGER,2300);
+    Employee emp5("emp5",24,MANAGER,2350);
+    Employee emp6("emp6",24,MANAGER,2350);
+    Employee emp7("emp7",24,HR,6000);
+    Employee emp8("emp8",24,HR,600);
+    Employee emp9("emp9",29,HR,600);
+    Employee emp10("emp10",29,HR,600);
     dep1.addEmpToDep(emp1, comp);
+    dep1.addEmpToDep(emp4, comp);
+    dep1.addEmpToDep(emp5, comp);
     dep5.addEmpToDep(emp2, comp);
+    dep5.addEmpToDep(emp6, comp);
+    dep5.addEmpToDep(emp7, comp);
     dep6.addEmpToDep(emp3, comp);
+    dep6.addEmpToDep(emp8, comp);
+    dep6.addEmpToDep(emp9, comp);
+    dep2.addEmpToDep(emp7, comp);
+    dep2.addEmpToDep(emp9, comp);
+    dep2.addEmpToDep(emp5, comp);
+    dep2.addSubDep(dep6, comp);
     cout<<"-----------------------------------------------------------------------------------------"<<endl;
     cout<<"the name of emp1 in company : "<<findEmployeeInDep(emp1,comp,comp->getMainDeps())->getName(comp)<<endl;
     cout<<"-----------------------------------------------------------------------------------------"<<endl;
@@ -117,6 +135,29 @@ int main() {
     cout<<"finding the dep6 department ,number of employees : "<<findDepartment(dep6,comp,comp->getMainDeps())->getEmpsOfDep(comp)->size()<<endl;
     cout<<"finding the dep6 department ,number of subdep  : "<<findDepartment(dep6,comp,comp->getMainDeps())->getSubDeps(comp)->size()<<endl;
     cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    comp->empsWithSameSalary(comp);
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    comp->empsOfMultiDeps();
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    comp->allEmployees();
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    cout<<comp->loop_IN_Deps()<<endl;
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    cout<<"Employees of Departments : "<<endl;
+        for(auto i=comp->allEmpsOfDepartments.begin();i!=comp->allEmpsOfDepartments.end();i++){
+        	 cout<<"Employee name & Employee ID : "<<i->getName()<<"  |  "<<i->getEmpId()<<endl;
+        }
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    comp->floatingEmps();
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    comp->addEmpToCompany(emp10);
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    comp->floatingEmps();
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    comp->removeEmpFromCompany(emp10);
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    comp->floatingEmps();
+
 
     /*cout << "started"<<endl;;
 	Company *comp=comp->getCompObject();

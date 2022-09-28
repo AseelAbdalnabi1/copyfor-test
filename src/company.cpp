@@ -73,16 +73,16 @@ void Company::removeMainDepFromCompany(Department dep){
 	 }
 }
 void allEmpsFun(Department dep,Company *obj ){
-	cout<<"at the beging of the allEmpsFun "<<dep.getDepName()<<endl;
-	cout << "number of emps in department: " <<dep.getEmpsOfDep()->size()<<endl;
+	//cout<<"at the beging of the allEmpsFun "<<dep.getDepName()<<endl;
+	//cout << "number of emps in department: " <<dep.getEmpsOfDep()->size()<<endl;
 	//vector<Employee> *depart=dep.getEmpsOfDep();
      obj->allEmpsOfDepartments.insert(obj->allEmpsOfDepartments.end(), dep.getEmpsOfDep()->begin(),dep.getEmpsOfDep()->end() );//stops here
 	//std::copy (dep.getEmpsOfDep().begin(), dep.getEmpsOfDep().end(), back_inserter(obj->allEmps));
-	cout<<"***************after copy"<<endl;
-	cout<<obj->allEmpsOfDepartments.size()<<"   size of all emps inside the fun"<<endl;
-     cout<<dep.isAnySubDeps()<<endl;
+	//cout<<"***************after copy"<<endl;
+	//cout<<obj->allEmpsOfDepartments.size()<<"   size of all emps inside the fun"<<endl;
+   //  cout<<dep.isAnySubDeps()<<endl;
     if(dep.isAnySubDeps()==1){
-    	cout<<"yes there is subdeps"<<endl;
+    	//cout<<"yes there is subdeps"<<endl;
     	//vector<Department> SubDepart=dep.getSubDeps();
     	for(auto f=dep.getSubDeps()->begin();f!=dep.getSubDeps()->end();f++){
     	//for(auto f=SubDepart.begin();f!=SubDepart.end();f++){
@@ -91,17 +91,17 @@ void allEmpsFun(Department dep,Company *obj ){
     	}
     }
     else{
-    	cout<<"no there is no SubDep for this Dep"<<endl;
+    	//cout<<"no there is no SubDep for this Dep"<<endl;
        return ;
     }
 }
 vector<Employee> Company::allEmployees(){
-	cout<<"allEmployee function called-at the begining "<<endl;
+	//cout<<"allEmployee function called-at the begining "<<endl;
 	if(!(this->allEmpsOfDepartments.empty())){
 		allEmpsOfDepartments.clear();
 	}
     int size=(int) MainDeps.size();
-     cout<<size<<endl;
+    // cout<<size<<endl;
 
     for(int i=0;i<size;i++){
     	 thread th(allEmpsFun,MainDeps.at(i),this);
@@ -109,7 +109,12 @@ vector<Employee> Company::allEmployees(){
 
 
     }
-    cout<<"allEmployee function called-at the end "<<endl;
+   /* cout<<"Employees of Departments : "<<endl;
+    for(auto i=allEmpsOfDepartments.begin();i!=allEmpsOfDepartments.end();i++){
+    	 cout<<"Employee name & Employee ID : "<<i->getName()<<"  |  "<<i->getEmpId()<<endl;
+
+    }*/
+   // cout<<"allEmployee function called-at the end "<<endl;
     return this->allEmpsOfDepartments;
 }//using threads
 
@@ -159,6 +164,10 @@ vector<Employee> Company::empsOfMultiDeps(){
 		}else{
 			empsOfMultiDeps_Results.push_back((*i));
 		}
+	}
+	cout<<"Employees of multi-Departments : "<<endl;;
+	for(auto i=empsOfMultiDeps_Results.begin();i!=empsOfMultiDeps_Results.end();i++){
+		cout<<"Employee name & ID : "<<	i->getName()<<"  |  "<<i->getEmpId()<<endl;;
 	}
 	return empsOfMultiDeps_Results;
 }//using sets or hash or maps
