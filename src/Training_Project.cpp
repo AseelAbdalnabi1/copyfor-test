@@ -103,7 +103,18 @@ int main() {
     Employee emp8("emp8",24,HR,600);
     Employee emp9("emp9",29,HR,600);
     Employee emp10("emp10",29,HR,600);
+    Employee *emp11=Employee::Create("emp11", 10, MANAGER, 2000);
+    Employee *emp12=Employee::Create("emp12", 10, HR, 2000);
+    Employee *emp13=Employee::Create("emp13", 10, TEAM_LEAD, 2000);
+    Employee *emp14=Employee::Create("emp14", 10, DEVELOPER, 2000);
+    Employee *emp15=Employee::Create("emp15", 10, TESTER, 2000);
+
     dep1.addEmpToDep(emp1, comp);
+    dep1.addEmpToDep(*emp11,comp);
+    dep1.addEmpToDep(*emp12,comp);
+    dep1.addEmpToDep(*emp13,comp);
+    dep1.addEmpToDep(*emp14,comp);
+    dep1.addEmpToDep(*emp15,comp);
     dep1.addEmpToDep(emp4, comp);
     dep1.addEmpToDep(emp5, comp);
     dep5.addEmpToDep(emp2, comp);
@@ -153,11 +164,11 @@ int main() {
     comp->addEmpToCompany(emp10);
     cout<<"-----------------------------------------------------------------------------------------"<<endl;
     comp->floatingEmps();
-    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    /*cout<<"-----------------------------------------------------------------------------------------"<<endl;
     comp->removeEmpFromCompany(emp10);
     cout<<"-----------------------------------------------------------------------------------------"<<endl;
     comp->floatingEmps();
-
+*/
 
     /*cout << "started"<<endl;;
 	Company *comp=comp->getCompObject();
