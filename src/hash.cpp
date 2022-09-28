@@ -9,9 +9,20 @@ Hash::Hash(int BUCKET)
 
 void Hash::insertItem(Employee Emp)
 {
- int index = hashFunction(Emp.getSalary());
- table[index].push_back(Emp);
-}
+	int index = hashFunction(Emp.getSalary());
+
+	if(table[index].empty() || table[index].front().getSalary()==Emp.getSalary()){
+		table[index].push_back(Emp);
+		return;
+	}else{
+		while(table[index].front().getSalary()!=Emp.getSalary()&& (!table[index].empty()) ){
+			index+=1;
+		}
+		table[index].push_back(Emp);
+		return;
+	}
+
+ }
 int Hash::hashFunction(int empSalary){
 	return (empSalary%BUCKET);
 }

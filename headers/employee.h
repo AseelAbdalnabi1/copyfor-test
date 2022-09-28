@@ -11,7 +11,7 @@
 #include "company.h"
 class Person;
 class Company;
-enum ROLE {CEO, MANAGER, TEAM_LEAD, DEVELOPER, TESTER, HR,NO_ROLE};
+enum ROLE {CEO, MANAGER, TEAM_LEAD, DEVELOPER, TESTER, HR};
 class Employee : public Person{
 private:
 	ROLE Role;
@@ -22,6 +22,7 @@ private:
 public:
 	//Employee();
 	Employee(std::string Name,float Age ,ROLE Role,int Salary);
+	static Employee* Create(std::string Name,float Age ,ROLE RoleType,int Salary);
 	std::string getName();
 	void setName(std::string Name);
 	void setName(std::string Name,Company *compObj);

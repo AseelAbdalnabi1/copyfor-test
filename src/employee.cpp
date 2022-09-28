@@ -6,22 +6,56 @@
  */
 #include "../headers/employee.h"
 #include "../headers/company.h"
+#include "../headers/CEO.h"
+#include "../headers/HR.h"
+#include "../headers/TESTER.h"
+#include "../headers/MANAGER.h"
+#include "../headers/TEAM_LEAD.h"
+#include "../headers/DEVELOPER.h"
 #include <iostream>
 using namespace std;
 #include <string>
 #include <algorithm>
 class Company;
 class Employee;
-
-
+/*class HR;
+class CEO;
+class TESTER;
+class manager;
+class TEAM_LEAD;
+class DEVELOPER;
+*/
 Employee * findEmployeeInDep(Employee NeededEmp,Company *compObj,vector<Department>* RangeOfDeps);
 Employee *findEmployeeInCompany(Employee emp,Company *compObj);
 int Employee::ID=0;
+
 Employee::Employee(string Name,float Age ,ROLE Role,int Salary):Person(Name,Age){
 	this->setRole(Role);
 	this->setSalary(Salary);
 	this->setEmpId(ID+=1);
 	cout<<"Employee created! with empId : "<<this->getEmpId()<<endl;
+}
+
+Employee* Employee::Create(string Name,float Age ,ROLE RoleType,int Salary){
+	Employee *emp=nullptr;
+	if (RoleType == CEO){
+		emp=new ceo(Name,Age,Salary);
+		return emp;
+	}
+	else if (RoleType == MANAGER){
+		return new manager(Name,Age,Salary);
+	}
+	else if (RoleType == TEAM_LEAD){
+		return new team_lead(Name,Age,Salary);
+	}else if (RoleType == DEVELOPER){
+		return new developer(Name,Age,Salary);
+	}else if (RoleType == TESTER){
+		return new tester(Name,Age,Salary);
+	}else if (RoleType == HR){
+		return new hr(Name,Age,Salary);
+	}
+	else
+		return NULL;
 }
 string Employee::getName(){
 	return Person::getName();
