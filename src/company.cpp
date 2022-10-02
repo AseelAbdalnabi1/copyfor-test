@@ -118,14 +118,20 @@ vector<Employee> Company::allEmployees(){
     return this->allEmpsOfDepartments;
 }//using threads
 
-void Company::empsWithSameSalary(Company *compObj){
-	cout<<compObj->EmpsOfAllCompany.size()<<endl;
-	if(compObj->EmpsOfAllCompany.size()!=0){
-		   Hash hashForEmpsWithSameSalary(compObj->EmpsOfAllCompany.size());
-		   for(auto i=compObj->EmpsOfAllCompany.begin();i!=compObj->EmpsOfAllCompany.end();i++){
+void Company::empsWithSameSalary(){
+	cout<<EmpsOfAllCompany.size()<<endl;
+	if(EmpsOfAllCompany.size()!=0){
+		cout<<"inside if"<<endl;
+		   Hash hashForEmpsWithSameSalary(EmpsOfAllCompany.size());
+			cout<<"after hash before"<<endl;
+
+		   for(auto i=EmpsOfAllCompany.begin();i!=EmpsOfAllCompany.end();i++){
 		    hashForEmpsWithSameSalary.insertItem((*i));
+		    cout<<"-------------------------------------------after insert"<<endl;
 		   }
+		   cout<<"before display"<<endl;
 		   hashForEmpsWithSameSalary.displayEmployeesWithSameSalary();
+		   cout<<"after display"<<endl;
 		   return;
 	}else{
 		cout<<"Company has NO employees "<<endl;

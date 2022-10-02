@@ -3,6 +3,6 @@
 using namespace std;
 
 hr::hr(std::string Name,float Age,int Salary):Employee(Name,Age,HR,Salary){
-		cout<<"employee of type HR has been created";
+		cout<<"employee of type HR has been created"<<endl;
 }
 

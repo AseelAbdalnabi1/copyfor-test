@@ -17,20 +17,89 @@ class Employee;
 class Department;
 class Person;
 static vector<Department> test={};
+static int flag;
+static Department *foundDep=nullptr;
 //Department * findSubDepartment(Department neededDep, Department parentDep);
 Employee* findEmpInSubDep(Employee emp,Department dep);
 void TestFunctionToSeeAllTheCompanyDepsHand(Department dep,Company *compObj);
+Department * findDepartment(Department neededDep,Company *compObj,vector<Department> *RangeOfDeps);
+Department *findDepartmenthand(Department *neededDep,Company *compObj,Department *parent,int &flag);
 
-Department * findDepartment(Department neededDep,Company *compObj,vector<Department> *RangeOfDeps){
-	auto i=find(RangeOfDeps->begin(),RangeOfDeps->end(),neededDep);
+
+
+/*Department * findDepartment(Department *neededDep,Company *compObj,vector<Department> *RangeOfDeps){
+	auto it=find(RangeOfDeps->begin(),RangeOfDeps->end(),*neededDep);
+		if(it!=RangeOfDeps->end()){
+			cout<<"before return in findsubdepartment : "<<it->getDepName()<<endl;
+			return &(*it);
+		}
+	for(auto it2=RangeOfDeps->begin();it2!=RangeOfDeps->end();it2++){
+			if(it2->getSubDeps()->empty()){
+				continue;
+			}
+			else{
+				return findDepartment(neededDep,compObj,it2->getSubDeps());
+			}
+	}
+	return nullptr;
+}*/
+/*Department * findDepartment(Department *neededDep,Company *compObj,vector<Department> *RangeOfDeps){
+	auto i=find(RangeOfDeps->begin(),RangeOfDeps->end(),*neededDep);
 	if(i!=RangeOfDeps->end()){
 		return &(*i);
 	}
 	for(auto it=RangeOfDeps->begin();it!=RangeOfDeps->end();it++){
+		cout<<"in find department "<<it->getDepName()<<endl;
 		return findDepartment(neededDep,compObj,(*it).getSubDeps());
 	}
 }
+*/
+Department * findDepartment(Department *neededDep,Company *compObj,vector<Department> *RangeOfDeps){
+	//Department *dep=nullptr;
+	foundDep=nullptr;
+	flag=0;//department not found
+	int size=(int) compObj->getMainDeps()->size();
+	     cout<<size<<endl;
 
+	    for(int i=0;i<size;i++){
+	    	findDepartmenthand(neededDep,compObj,&(compObj->getMainDeps()->at(i)),flag);
+	    	//cout<<"------------------------------------aseel5"<<dep->getDepName()<<endl;
+	    	if(foundDep!=nullptr && flag==1){
+	    		cout<<"before return and break :"<<foundDep->getDepName()<<endl;
+	    		return foundDep;
+	    		break;
+	    	}else if(foundDep==nullptr && flag==0){
+	    		continue;
+	    	}
+	    }
+	    return nullptr;
+}
+Department *findDepartmenthand(Department *neededDep,Company *compObj,Department *parent,int &flag){
+	cout<<parent->getDepName()<<endl;
+	if (flag==1){
+		return foundDep;
+	}
+
+	if((*neededDep)==(*parent)){
+		cout<<"returned department is:  "<<parent->getDepName()<<endl;
+		flag=1;
+		cout<<"-------------------------aseel1  flag : "<<flag<<endl;
+        foundDep = parent;
+		return foundDep;
+	}if(flag==0){
+	if(parent->isAnySubDeps()==1){
+		cout<<"-------------------------aseel2  flag : "<<flag<<endl;
+//cout<<"yes there is sub dep"<<endl;
+	    	for(auto f=parent->getSubDeps()->begin();f!=parent->getSubDeps()->end();f++){
+	    		cout<<"sub department is : "<<(*f).getDepName()<<"  in findDepartmenthand"<<endl;
+	    		findDepartmenthand(neededDep,compObj,&(*f),flag);
+	    	}
+	  }
+	return nullptr;
+	}
+
+
+}
 Employee * findEmployeeInDep(Employee NeededEmp,Company *compObj,vector<Department>* RangeOfDeps){//for hirarichy
 	for( auto it1=RangeOfDeps->begin();it1!=RangeOfDeps->end();it1++){
 		auto it2=find((*it1).getEmpsOfDep()->begin(),(*it1).getEmpsOfDep()->end(),NeededEmp);
@@ -82,13 +151,28 @@ void TestFunctionToSeeAllTheCompanyDepsHand(Department dep,Company *compObj){
 }
 int main() {
 	Company *comp=comp->getCompObject();
-	Department dep1("backend");
+	/*Department dep1("backend");
 	Department dep5("dep5");
 	Department dep6("dep6");
 	Department dep2("dep2");
 	dep5.addSubDep(dep6);
-	dep1.addSubDep(dep5);
-    comp->addMainDepToCompany(dep1);
+	dep1.addSubDep(dep5);*/
+	Department dep1("dep1");
+	Department dep5("dep5");
+	Department dep55("dep55");
+	Department dep6("dep6");
+
+	Department dep2("dep2");
+	Department dep3("dep3");
+	Department dep4("dep4");
+	Department dep7("dep7");
+	Department dep8("dep8");
+	Department dep9("dep9");
+	Department dep10("dep10");
+	Department dep11("dep11");
+	Department dep12("dep12");
+
+  /*  comp->addMainDepToCompany(dep1);
     comp->addMainDepToCompany(dep2);
     cout<<comp->getMainDeps()->size()<<endl;
     cout<<comp->getMainDeps()->at(0).getSubDeps()->size()<<endl;
@@ -107,9 +191,102 @@ int main() {
     Employee *emp12=Employee::Create("emp12", 10, HR, 2000);
     Employee *emp13=Employee::Create("emp13", 10, TEAM_LEAD, 2000);
     Employee *emp14=Employee::Create("emp14", 10, DEVELOPER, 2000);
-    Employee *emp15=Employee::Create("emp15", 10, TESTER, 2000);
+    Employee *emp15=Employee::Create("emp15", 10, TESTER, 2000);*/
 
-    dep1.addEmpToDep(emp1, comp);
+	 Employee emp1("emp1",16,MANAGER,6000);
+	    Employee emp2("emp2",25,HR,4000);
+	    Employee emp3("emp3",24,MANAGER,2300);
+	    Employee emp4("emp4",24,MANAGER,2300);
+	    Employee emp5("emp5",24,MANAGER,2350);
+	    Employee emp6("emp6",24,MANAGER,2350);
+	    Employee emp7("emp7",24,HR,6000);
+	    Employee emp8("emp8",24,HR,600);
+	    Employee emp9("emp9",29,HR,600);
+	    Employee emp10("emp10",29,HR,600);
+	    Employee *emp11=Employee::Create("emp11", 10, MANAGER, 9500);
+	    Employee *emp12=Employee::Create("emp12", 10, HR, 10000);
+	    Employee *emp13=Employee::Create("emp13", 10, HR, 10000);
+
+		dep5.addSubDep(dep6);
+		dep5.addSubDep(dep10);
+		dep1.addSubDep(dep5);
+		dep55.addSubDep(dep8);
+		dep1.addSubDep(dep55);
+		dep7.addSubDep(dep11);
+		dep2.addSubDep(dep7);
+		dep4.addSubDep(dep12);
+		dep3.addSubDep(dep4);
+
+	    comp->addMainDepToCompany(dep1);
+	    comp->addMainDepToCompany(dep2);
+	    comp->addMainDepToCompany(dep3);
+
+	    cout<<"---------------------testing----------------------"<<endl;
+	    //cout<<"finding the dep7 department ,name of department : "<<findDepartment(&dep7,comp,comp->getMainDeps())->getDepName()<<endl;
+	        //cout<<"finding the dep7 department ,number of employees : "<<findDepartment(dep7,comp,comp->getMainDeps())->getEmpsOfDep(comp)->size()<<endl;
+	      //  cout<<"finding the dep7 department ,number of subdep  : "<<findDepartment(&dep7,comp,comp->getMainDeps())->getSubDeps(comp)->size()<<endl;
+	     //dep8.addSubDep(dep9, comp);
+        //dep10.addSubDep(dep9, comp);
+        //cout<<dep10.getSubDeps(comp)->size()<<endl;
+       // cout<<dep10.getSubDeps()->size()<<endl;
+//cout<<comp->getMainDeps()->at(0).getSubDeps()->at(0).getDepName()<<endl;
+//cout<<comp->getMainDeps()->at(1).getSubDeps()->at(0).getSubDeps()->size()<<endl;
+TestFunctionToSeeAllTheCompanyDeps(comp);
+        cout<<"----------------end---of--testing----------------------"<<endl;
+        cout<<"-------------------------------------------------------start-testing---------------------------------------------------------"<<endl;
+        dep1.addEmpToDep(emp1,comp);
+    	dep2.addEmpToDep(emp2,comp);
+    	dep3.addEmpToDep(emp3,comp);
+    	dep4.addEmpToDep(emp4,comp);
+    	dep5.addEmpToDep(emp5,comp);
+    	dep6.addEmpToDep(emp6,comp);
+    	dep7.addEmpToDep(emp7,comp);
+    	dep8.addEmpToDep(emp8,comp);
+    	dep10.addEmpToDep(emp10,comp);
+    	dep11.addEmpToDep(emp10,comp);
+    	dep55.addEmpToDep(emp9,comp);
+    	dep11.addEmpToDep(*emp11,comp);
+    	dep6.addEmpToDep(*emp11,comp);
+    	dep12.addEmpToDep(*emp12,comp);
+    	   cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    	     comp->allEmployees();
+    	     cout<<"-----------------------------------------------------------------------------------------"<<endl;
+
+    	     cout<<"Employees of Departments : "<<endl;
+    	            for(auto i=comp->allEmpsOfDepartments.begin();i!=comp->allEmpsOfDepartments.end();i++){
+    	            	 cout<<"Employee name & Employee ID : "<<i->getName()<<"  |  "<<i->getEmpId()<<endl;
+    	            }
+    	cout<<"------------------------------------------------end of add emp testing----------------------------------------"<<endl;
+
+	     cout<<"Employees of all Company : "<<endl;
+	            for(auto i=comp->EmpsOfAllCompany.begin();i!=comp->EmpsOfAllCompany.end();i++){
+	            	 cout<<"Employee name & Employee ID : "<<i->getName()<<"  |  "<<i->getEmpId()<<endl;
+	            }
+    	comp->empsWithSameSalary();
+    	    cout<<"---------------------------------hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh--------------------------------------------------------"<<endl;
+    	    comp->empsOfMultiDeps();
+    	    dep6.removeEmpFromDep(*emp11, comp);
+    	    dep11.removeEmpFromDep(emp10, comp);
+    	    comp->empsOfMultiDeps();
+    	    cout<<"------------------------------------hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh-----------------------------------------------------"<<endl;
+    	    cout<<comp->loop_IN_Deps()<<endl;
+    	    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    	    dep8.addSubDep(dep9, comp);
+    	    dep10.addSubDep(dep9, comp);
+    	    cout<<comp->loop_IN_Deps()<<endl;
+    	    dep8.RemoveSubDep(dep9, comp);
+    	    dep10.RemoveSubDep(dep9, comp);
+    	    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+
+    	    cout<<comp->loop_IN_Deps()<<endl;
+    	    cout<<"----------------------------floating testing   -------------------------------------------------------------"<<endl;
+cout<<comp->floatingEmps()<<endl;
+comp->addEmpToCompany(*emp13);
+cout<<comp->floatingEmps()<<endl;//1
+cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+comp->removeEmpFromCompany(*emp13);
+cout<<comp->floatingEmps()<<endl;
+    /*dep1.addEmpToDep(emp1, comp);
     dep1.addEmpToDep(*emp11,comp);
     dep1.addEmpToDep(*emp12,comp);
     dep1.addEmpToDep(*emp13,comp);
@@ -164,13 +341,14 @@ int main() {
     comp->addEmpToCompany(emp10);
     cout<<"-----------------------------------------------------------------------------------------"<<endl;
     comp->floatingEmps();
-    /*cout<<"-----------------------------------------------------------------------------------------"<<endl;
-    comp->removeEmpFromCompany(emp10);
+    TestFunctionToSeeAllTheCompanyDeps(comp);
+    cout<<"-----------------------------------------------------------------------------------------"<<endl;
+    /*comp->removeEmpFromCompany(emp10);
     cout<<"-----------------------------------------------------------------------------------------"<<endl;
     comp->floatingEmps();
-*/
 
-    /*cout << "started"<<endl;;
+
+    cout << "started"<<endl;;
 	Company *comp=comp->getCompObject();
 	cout << "company created"<<endl;;
 	//
@@ -202,7 +380,7 @@ Department dep3("HR");
 Department dep4("UI/UX");
 Department dep45("backend");
 
-/*cout<<"*******************************------------------------------******************************************************"<<endl;
+cout<<"*******************************------------------------------******************************************************"<<endl;
 cout<<"size :"<<comp->getMainDeps()->size()<<endl;
 comp->addMainDepToCompany(dep1);
 cout<<"size :"<<comp->getMainDeps()->size()<<endl;
@@ -476,7 +654,7 @@ cout<<".................................................................testing.
 //cout<<"finding the dep5(dep5)department ,name of department : "<<findDepartment(dep5,comp)->getDepName()<<"in Training project "<<endl;
 //cout<<"finding the dep5(dep5) department ,number of employees : "<<findDepartment(dep5,comp)->getEmpsOfDep(comp)->size()<<endl;
 //cout<<"finding the dep5(dep5) department ,number of subdep  : "<<findDepartment(dep5,comp)->getSubDeps(comp)->size()<<endl;
-/*cout<<".......................................................................here.................................................."<<endl;
+cout<<".......................................................................here.................................................."<<endl;
 //cout<<"before"<<endl;
 //dep=findDepartment(dep6,comp);
 //cout<<"after"<<endl;
@@ -526,7 +704,7 @@ cout<<comp->getMainDeps()->at(1).getDepName()<<endl;//emp12
 cout<<comp->getMainDeps()->at(0).getSubDeps()->at(0).getDepName()<<endl;;//emp13
 cout<<comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(0).getDepName()<<endl;//emp14
 cout<<comp->getMainDeps()->at(0).getSubDeps()->at(0).getSubDeps()->at(1).getDepName()<<endl;//emp15
-/*cout<<"...........................floating employees testing............................................"<<endl;
+cout<<"...........................floating employees testing............................................"<<endl;
 
 cout<<comp->floatingEmps()<<endl;
 cout<<"................................26__9__2022..................................................................."<<endl;

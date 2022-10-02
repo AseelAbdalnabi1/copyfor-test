@@ -1,4 +1,4 @@
-#include "Company.h"
+#include "company.h"
 #include <list>
 #include<bits/stdc++.h>
 using namespace std;

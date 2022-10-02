@@ -41,7 +41,7 @@ public:
     void addEmpToCompany(Employee emp);
     void removeEmpFromCompany(Employee emp);
     std::vector<Employee> allEmployees();
-    void empsWithSameSalary(Company *compObj);
+    void empsWithSameSalary();
     std::vector<Employee> empsOfMultiDeps();
     bool loop_IN_Deps_hand(Department dep);
     bool loop_IN_Deps();
