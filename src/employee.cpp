@@ -18,13 +18,6 @@ using namespace std;
 #include <algorithm>
 class Company;
 class Employee;
-/*class HR;
-class CEO;
-class TESTER;
-class manager;
-class TEAM_LEAD;
-class DEVELOPER;
-*/
 Employee * findEmployeeInDep(Employee NeededEmp,Company *compObj,vector<Department>* RangeOfDeps);
 Employee *findEmployeeInCompany(Employee emp,Company *compObj);
 int Employee::ID=0;
@@ -239,7 +232,6 @@ bool Employee::operator == (int const &empID){
 	return (empID == this->getEmpId());
 }
 Employee::~Employee(){
-		//cout<<"Employee has deleted successfully, in Employee destructor,Employee number is : "<<this->getEmpId()<<endl;
 }
 
 

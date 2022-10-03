@@ -19,53 +19,16 @@ class Person;
 static vector<Department> test={};
 static int flag;
 static Department *foundDep=nullptr;
-//Department * findSubDepartment(Department neededDep, Department parentDep);
-Employee* findEmpInSubDep(Employee emp,Department dep);
 void TestFunctionToSeeAllTheCompanyDepsHand(Department dep,Company *compObj);
-Department * findDepartment(Department neededDep,Company *compObj,vector<Department> *RangeOfDeps);
 Department *findDepartmenthand(Department *neededDep,Company *compObj,Department *parent,int &flag);
 
-
-
-/*Department * findDepartment(Department *neededDep,Company *compObj,vector<Department> *RangeOfDeps){
-	auto it=find(RangeOfDeps->begin(),RangeOfDeps->end(),*neededDep);
-		if(it!=RangeOfDeps->end()){
-			cout<<"before return in findsubdepartment : "<<it->getDepName()<<endl;
-			return &(*it);
-		}
-	for(auto it2=RangeOfDeps->begin();it2!=RangeOfDeps->end();it2++){
-			if(it2->getSubDeps()->empty()){
-				continue;
-			}
-			else{
-				return findDepartment(neededDep,compObj,it2->getSubDeps());
-			}
-	}
-	return nullptr;
-}*/
-/*Department * findDepartment(Department *neededDep,Company *compObj,vector<Department> *RangeOfDeps){
-	auto i=find(RangeOfDeps->begin(),RangeOfDeps->end(),*neededDep);
-	if(i!=RangeOfDeps->end()){
-		return &(*i);
-	}
-	for(auto it=RangeOfDeps->begin();it!=RangeOfDeps->end();it++){
-		cout<<"in find department "<<it->getDepName()<<endl;
-		return findDepartment(neededDep,compObj,(*it).getSubDeps());
-	}
-}
-*/
-Department * findDepartment(Department *neededDep,Company *compObj,vector<Department> *RangeOfDeps){
-	//Department *dep=nullptr;
+Department * findDepartment(Department *neededDep,Company *compObj){
 	foundDep=nullptr;
 	flag=0;//department not found
 	int size=(int) compObj->getMainDeps()->size();
-	     cout<<size<<endl;
-
 	    for(int i=0;i<size;i++){
 	    	findDepartmenthand(neededDep,compObj,&(compObj->getMainDeps()->at(i)),flag);
-	    	//cout<<"------------------------------------aseel5"<<dep->getDepName()<<endl;
 	    	if(foundDep!=nullptr && flag==1){
-	    		cout<<"before return and break :"<<foundDep->getDepName()<<endl;
 	    		return foundDep;
 	    		break;
 	    	}else if(foundDep==nullptr && flag==0){
@@ -75,23 +38,16 @@ Department * findDepartment(Department *neededDep,Company *compObj,vector<Depart
 	    return nullptr;
 }
 Department *findDepartmenthand(Department *neededDep,Company *compObj,Department *parent,int &flag){
-	cout<<parent->getDepName()<<endl;
 	if (flag==1){
 		return foundDep;
 	}
-
 	if((*neededDep)==(*parent)){
-		cout<<"returned department is:  "<<parent->getDepName()<<endl;
 		flag=1;
-		cout<<"-------------------------aseel1  flag : "<<flag<<endl;
         foundDep = parent;
 		return foundDep;
 	}if(flag==0){
 	if(parent->isAnySubDeps()==1){
-		cout<<"-------------------------aseel2  flag : "<<flag<<endl;
-//cout<<"yes there is sub dep"<<endl;
 	    	for(auto f=parent->getSubDeps()->begin();f!=parent->getSubDeps()->end();f++){
-	    		cout<<"sub department is : "<<(*f).getDepName()<<"  in findDepartmenthand"<<endl;
 	    		findDepartmenthand(neededDep,compObj,&(*f),flag);
 	    	}
 	  }
@@ -124,13 +80,8 @@ Employee *findEmployeeInCompany(Employee emp,Company *compObj){
 }
 void TestFunctionToSeeAllTheCompanyDeps(Company *compObj){//all department regardless if they are repeated or not
 	test.clear();
-	cout<<"in the begining of test"<<endl;
 	for(auto i=compObj->getMainDeps()->begin();i!=compObj->getMainDeps()->end();i++){
-		cout<<"in the loop before push in test vector"<<endl;
 		       test.push_back((*i));
-		       cout<<"in the loop AFTER push in test vector"<<endl;
-		       cout<<"------------------------------------"<<endl;
-		       cout<<"in test: the department pushed : "<<(*i).getDepName()<<endl;
 		       if((*i).isAnySubDeps()==1){
 		    	   TestFunctionToSeeAllTheCompanyDepsHand((*i),compObj);
 		       }
@@ -226,7 +177,7 @@ int main() {
 	        //cout<<"finding the dep7 department ,number of employees : "<<findDepartment(dep7,comp,comp->getMainDeps())->getEmpsOfDep(comp)->size()<<endl;
 	      //  cout<<"finding the dep7 department ,number of subdep  : "<<findDepartment(&dep7,comp,comp->getMainDeps())->getSubDeps(comp)->size()<<endl;
 	     //dep8.addSubDep(dep9, comp);
-        //dep10.addSubDep(dep9, comp);
+       // dep10.addSubDep(dep9, comp);
         //cout<<dep10.getSubDeps(comp)->size()<<endl;
        // cout<<dep10.getSubDeps()->size()<<endl;
 //cout<<comp->getMainDeps()->at(0).getSubDeps()->at(0).getDepName()<<endl;

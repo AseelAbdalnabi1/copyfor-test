@@ -26,7 +26,6 @@ void Person::setAge(float Age){
 this->Age=Age;
 }
 Person::~Person(){
-	 //cout<<"person deleted successfully, in Person destructor"<<endl;
 }
 
 

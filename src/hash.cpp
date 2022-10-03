@@ -5,11 +5,10 @@ Hash::Hash(int BUCKET)
 {
  this->BUCKET = BUCKET;
  table = new list<Employee>[this->BUCKET];
- cout<<"hash created "<<endl;
 }
 
 void Hash::insertItem(Employee Emp)
-{ cout<<"inside inseart item: employee name:"<<Emp.getName()<<endl;
+{
 	int index = hashFunction(Emp.getSalary());
 
 	if(table[index].empty() || table[index].front().getSalary()==Emp.getSalary()){
@@ -20,11 +19,8 @@ void Hash::insertItem(Employee Emp)
 			index+=1;
 		}
 		table[index].push_back(Emp);
-		cout<<"done"<<endl;
 		return;
 	}
-	cout<<"done"<<endl;
-
  }
 int Hash::hashFunction(int empSalary){
 	if(empSalary%10==0)
@@ -35,13 +31,10 @@ int Hash::hashFunction(int empSalary){
 		return empSalary%1000;
 	}else{
 		return (empSalary%BUCKET);
-	}	//return (empSalary%BUCKET);
+	}
 }
 void Hash::displayEmployeesWithSameSalary() {
-	cout<<"number of buckets : "<<BUCKET<<endl;
 	for (int i = 0; i < BUCKET; i++) {
-
-
 		if(table[i].size()>1){
 			cout<<"Employees with same salary  are:-"<<endl;
 			for(auto j=table[i].begin();j!=table[i].end();j++)

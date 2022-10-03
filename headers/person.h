@@ -13,7 +13,6 @@ private:
 	std::string Name;
 	float Age;
 public:
-	//Person();
 	Person(std::string Name,float Age);
 	std::string getName();
 	void setName(std::string Name);

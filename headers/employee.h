@@ -20,7 +20,6 @@ private:
 	int empID;
 	void setEmpId(int empID);
 public:
-	//Employee();
 	Employee(std::string Name,float Age ,ROLE Role,int Salary);
 	static Employee* Create(std::string Name,float Age ,ROLE RoleType,int Salary);
 	std::string getName();
