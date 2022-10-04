@@ -79,10 +79,10 @@ vector<Employee> Company::allEmployees(){
     return this->allEmpsOfDepartments;
 }
 
-void Company::empsWithSameSalary(){
-	if(EmpsOfAllCompany.size()!=0){
-		   Hash hashForEmpsWithSameSalary(EmpsOfAllCompany.size());
-		   for(auto i=EmpsOfAllCompany.begin();i!=EmpsOfAllCompany.end();i++){
+void Company::empsWithSameSalary(){//API to find employees with same salaries
+	if(EmpsOfAllCompany.size()!=0){//checking if we have any employees in company
+		   Hash hashForEmpsWithSameSalary(EmpsOfAllCompany.size());//creating a hash table with the same size as employees of company
+		   for(auto i=EmpsOfAllCompany.begin();i!=EmpsOfAllCompany.end();i++){//loop through out the employees of company and inserting them to the hash table
 			   hashForEmpsWithSameSalary.insertItem((*i));
 		   }
 		   hashForEmpsWithSameSalary.displayEmployeesWithSameSalary();
@@ -113,14 +113,14 @@ void Company::removeEmpFromCompany(Employee emp){//employees who are in company 
 		cout<<"employee with empID number: "<<emp.getEmpId()<<" is not part of the company"<<endl;
 	}
 }
-vector<Employee> Company::empsOfMultiDeps(){
-	vector<Employee>  EmpsOfDeps=allEmployees();
-	 empsOfMultiDeps_Results={};
-	set<int> SetOfEmps;
+vector<Employee> Company::empsOfMultiDeps(){ //finding employees of multiple departments
+	vector<Employee>  EmpsOfDeps=allEmployees();//getting employees of department
+	 empsOfMultiDeps_Results={};//vector to store the employees of multiple departments
+	set<int> SetOfEmps;//set of employees in department without Repetition
 	for(auto i=EmpsOfDeps.begin();i!=EmpsOfDeps.end();i++){
-		if(SetOfEmps.find((*i).getEmpId())==SetOfEmps.end()){
+		if(SetOfEmps.find((*i).getEmpId())==SetOfEmps.end()){// if not found in setOfDeps add it in SetOfEmps
 			SetOfEmps.insert((*i).getEmpId());
-		}else{
+		}else{//if found -then it is an employee of multiDep--we add it to empsOfMultiDeps_Results
 			empsOfMultiDeps_Results.push_back((*i));
 		}
 	}
@@ -130,19 +130,17 @@ vector<Employee> Company::empsOfMultiDeps(){
 	}
 	return empsOfMultiDeps_Results;
 }//using sets or hash or maps
-bool Company::loop_IN_Deps(){
-	if(ChildsOfDeps.empty()==0){
-		ChildsOfDeps.clear();
-	}
-	bool result;
-	for(auto it1=this->getMainDeps()->begin();it1!=this->getMainDeps()->end();it1++){
+bool Company::loop_IN_Deps(){//returns true if we have a department has two parent departments
+	ChildsOfDeps={}; //clear vector<Department> ChildsOfDeps since it is a static
+	bool result;//to return the result
+	for(auto it1=this->getMainDeps()->begin();it1!=this->getMainDeps()->end();it1++){//searching in Main Departments of the company
 		for(auto it2=(*it1).getSubDeps()->begin();it2!=(*it1).getSubDeps()->end();it2++){//children of main deps
-			if(ChildsOfDeps.find((*it2).getDepName())==ChildsOfDeps.end()){
+			if(ChildsOfDeps.find((*it2).getDepName())==ChildsOfDeps.end()){//if department is already in ChildsOfDeps then returns true --if not add it to ChildsOfDeps
 				ChildsOfDeps.insert((*it2).getDepName());
 			}else{
 				return true;
 			}
-			if((*it2).isAnySubDeps()==1){
+			if((*it2).isAnySubDeps()==1){ //checking if department has subDepartments ---if yes we call loop_IN_Deps on that department
 				result=loop_IN_Deps_hand((*it2));
 				if(result==1){
 					return true;
@@ -153,7 +151,7 @@ bool Company::loop_IN_Deps(){
 	}
 	return false;
 }
-bool Company::loop_IN_Deps_hand(Department 	ParentDep){
+bool Company::loop_IN_Deps_hand(Department 	ParentDep){//recursion function to search for loops in subDepartments
 	bool result;
 	for(auto it1=ParentDep.getSubDeps()->begin();it1!=ParentDep.getSubDeps()->end();it1++){
 		if(ChildsOfDeps.find((*it1).getDepName())==ChildsOfDeps.end()){
@@ -171,16 +169,16 @@ bool Company::loop_IN_Deps_hand(Department 	ParentDep){
 	return false;
 }
 bool Company::floatingEmps(){
-	 listOfFloatingEmps={};
-	vector<Employee> AllEmpsOfDeps=allEmployees();
-	for(auto i=EmpsOfAllCompany.begin(); i!=EmpsOfAllCompany.end();i++){
-		if(find(AllEmpsOfDeps.begin(),AllEmpsOfDeps.end(),(*i))==AllEmpsOfDeps.end()){
-			if((*i).getRole(this)!="CEO"){
+	 listOfFloatingEmps={};// clearing vector<Empolyee> listOfFloatingEmps since it is static data member
+	vector<Employee> AllEmpsOfDeps=allEmployees();//getting Employees of all departments
+	for(auto i=EmpsOfAllCompany.begin(); i!=EmpsOfAllCompany.end();i++){//loop in EmpsOfAllCompany (contains employees of departments and employees with no department)
+		if(find(AllEmpsOfDeps.begin(),AllEmpsOfDeps.end(),(*i))==AllEmpsOfDeps.end()){//cheacking if employee in EmpsOfAllCompany is also an employee in  department --if no
+			if((*i).getRole(this)!="CEO"){//if this employee(with no department) is NOT the CEO then add it to listOfFloatingEmps
 				listOfFloatingEmps.push_back((*i));
 			}
 		}
 	}
-	if(!listOfFloatingEmps.empty()){
+	if(!listOfFloatingEmps.empty()){//printing the floating employees of company
 		cout<<"-----------------------------------------------------------------------"<<endl;
 		cout<<"Floating employees in company are: "<<endl;
 		for(auto i=listOfFloatingEmps.begin();i!=listOfFloatingEmps.end();i++){
@@ -195,7 +193,6 @@ bool Company::floatingEmps(){
 Company::~Company(){
 	cout<<"Company has deleted successfully, in Company destructor"<<endl;
 }
-
 
 
 
