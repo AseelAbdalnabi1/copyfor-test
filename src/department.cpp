@@ -114,26 +114,24 @@ bool Department::setDepName(string DepName){
 
 }
 bool Department::removeEmpFromDep(Employee emp){
-	auto i=find(this->EmpsOfDep.begin(), this->EmpsOfDep.end(), emp);
+	auto i=find(this->EmpsOfDep.begin(), this->EmpsOfDep.end(), emp);//searching for emp in Employee of department
 		if(i != this->EmpsOfDep.end()){
 			this->EmpsOfDep.erase(i);
-			cout<<"Employee with "<<emp.getEmpId()<<" removed successfully from"<<this->DepName<<endl;
+			cout<<"Employee with "<<emp.getEmpId()<<" removed successfully from "<<this->DepName<<endl;
 			return true;//emp found in department and has been deleted
 
 		}else{
-			cout<<"Employee with "<<emp.getEmpId()<<"dose not exists in "<<this->DepName<<endl;
-		  return false;//emp did not found in department and has not been deleted
+			cout<<"Employee with "<<emp.getEmpId()<<" dose not exists in "<<this->DepName<<endl;
+			return false;//emp did not found in department and has not been deleted
 		}
-
 }
 void Department::removeEmpFromDep(Employee emp,Company *compObj){
 	Department *dep=findDepartment(this,compObj);//we try to find the department(search for the required department)
 	if(!(dep==nullptr)){//the required department is found
-		bool deletedFromDep=dep->removeEmpFromDep(emp);//we make sure the emp is found in the required department and has been deleted
-		if(deletedFromDep==1){
-		Employee *empInOtherDep=findEmployeeInDep(emp,compObj,compObj->getMainDeps());//we check if the emp belongs to another department in company---using findEmployeeInDep function
-		if(empInOtherDep==nullptr){	//if emp does not  belong to another dep---we won't delete it form EmpsOfAllCompany
-			Employee* EmpPtr=findEmployeeInCompany(emp,compObj);
+		if(dep->removeEmpFromDep(emp)){//we make sure the emp is found in the required department and has been deleted
+			Employee *empInOtherDep=findEmployeeInDep(emp,compObj,compObj->getMainDeps());//we check if the emp belongs to another department in company---using findEmployeeInDep function
+			if(empInOtherDep==nullptr){	//if emp  belongs to another dep---we won't delete it form EmpsOfAllCompany
+				Employee* EmpPtr=findEmployeeInCompany(emp,compObj);
 			if(EmpPtr!=nullptr){
 				compObj->EmpsOfAllCompany.erase(remove(compObj->EmpsOfAllCompany.begin(), compObj->EmpsOfAllCompany.end(), (*EmpPtr)),  compObj->EmpsOfAllCompany.end());
 				cout<<"employee found and deleted from EmpsOfAllCompany successfully"<<endl;
@@ -158,30 +156,32 @@ void Department::removeEmpFromDep(Employee emp,Company *compObj){
 	}
 }
 bool Department::addEmpToDep(Employee emp){
-	auto i=find(this->EmpsOfDep.begin(), this->EmpsOfDep.end(), emp);
-		if(i == this->EmpsOfDep.end()){
+	auto i=find(this->EmpsOfDep.begin(), this->EmpsOfDep.end(), emp);//searching employees of department
+		if(i == this->EmpsOfDep.end()){//if employee not found then add it
 	        this->EmpsOfDep.push_back(emp);
 	        cout<<"employee has successfully added in department"<<endl;
 	        return true;
-	}else if(i != this->EmpsOfDep.end()){
+	}else if(i != this->EmpsOfDep.end()){// if found --employee is not added to department and the function will return with false value
 		cout<<"employee already exists in department"<<endl;
 		return false;
 	}
-    return false;
 }
 void Department::addEmpToDep(Employee emp,Company *compObj){
 	Department *dep=findDepartment(this,compObj);
 	if(!(dep==nullptr)){
-		dep->addEmpToDep(emp);
-		Employee* EmpPtr=findEmployeeInCompany(emp,compObj);
-		if(EmpPtr==nullptr){
-		compObj->EmpsOfAllCompany.push_back(emp);
-		cout<<"employee added to company emp name:"<<emp.getName()<<endl;
-		return;
-		}else{
-			cout<<"employee already found in EmpsOfAllCompany"<<endl;
-			return;
+		if(dep->addEmpToDep(emp)){
+			Employee* EmpPtr=findEmployeeInCompany(emp,compObj);
+			if(EmpPtr==nullptr){
+				compObj->EmpsOfAllCompany.push_back(emp);
+				cout<<"employee added to company emp name: "<<emp.getName()<<endl;
+				return;
+			}else{
+				cout<<"employee already found in EmpsOfAllCompany"<<endl;
+				return;
+			}
 		}
+		else
+			return;
 
 	}else{
 		cout<<" Department not found in Company & Employee not added !"<<endl;

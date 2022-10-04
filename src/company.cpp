@@ -68,9 +68,7 @@ void allEmpsFun(Department dep,Company *obj ){
     }
 }
 vector<Employee> Company::allEmployees(){
-	if(!(this->allEmpsOfDepartments.empty())){
-		allEmpsOfDepartments.clear();
-	}
+	allEmpsOfDepartments.clear();
     int size=(int) MainDeps.size();
     for(int i=0;i<size;i++){
     	 thread th(allEmpsFun,MainDeps.at(i),this);
@@ -79,17 +77,17 @@ vector<Employee> Company::allEmployees(){
     return this->allEmpsOfDepartments;
 }
 
-void Company::empsWithSameSalary(){//API to find employees with same salaries
+vector<Employee> Company::empsWithSameSalary(){//API to find employees with same salaries
 	if(EmpsOfAllCompany.size()!=0){//checking if we have any employees in company
 		   Hash hashForEmpsWithSameSalary(EmpsOfAllCompany.size());//creating a hash table with the same size as employees of company
 		   for(auto i=EmpsOfAllCompany.begin();i!=EmpsOfAllCompany.end();i++){//loop through out the employees of company and inserting them to the hash table
 			   hashForEmpsWithSameSalary.insertItem((*i));
 		   }
-		   hashForEmpsWithSameSalary.displayEmployeesWithSameSalary();
-		   return;
+		   return hashForEmpsWithSameSalary.displayEmployeesWithSameSalary();
+
 	}else{
 		cout<<"Company has NO employees "<<endl;
-		return;
+		return {};
 	}
 }
 

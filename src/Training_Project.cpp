@@ -836,13 +836,13 @@ TEST_F(companyTest, AllEmployeesOfDeps) {
 	Department *dep8= new Department("dep8");
 	Department *dep9= new Department("dep9");
 	Department *dep10= new Department("dep10");
-	Employee *emp1=Employee::Create("emp1",16,TESTER,6000);
-    Employee *emp2=Employee::Create("emp2",25,DEVELOPER,4000);
+	Employee *emp1=Employee::Create("emp1",16,TESTER,1000);
+    Employee *emp2=Employee::Create("emp2",25,DEVELOPER,3000);
     Employee *emp3=Employee::Create("emp3",24,MANAGER,2300);
     Employee *emp4=Employee::Create("emp4",24,DEVELOPER,2300);
     Employee *emp5=Employee::Create("emp5",24,TESTER,2350);
-    Employee *emp6=Employee::Create("emp6",24,DEVELOPER,2350);
-    Employee *emp7=Employee::Create("emp7",24,HR,6000);
+    Employee *emp6=Employee::Create("emp6",24,DEVELOPER,2360);
+    Employee *emp7=Employee::Create("emp7",24,HR,6500);
     Employee *emp8=Employee::Create("emp8",24,HR,600);
     Employee *emp9=Employee::Create("emp9",29,TEAM_LEAD,600);
 	Employee *emp11=Employee::Create("emp11", 10, MANAGER, 2000);
@@ -879,11 +879,11 @@ TEST_F(companyTest, AllEmployeesOfDeps) {
 	   // ASSERT_TRUE(1 == 1);
 	}
 TEST_F(companyTest, empsWithSameSalaryTest) {
-	comp->empsWithSameSalary();
+	EXPECT_EQ( 5,(int) comp->empsWithSameSalary().size());
 }
 TEST_F(companyTest, empsOfMultiDepsTest) {
 	comp->empsOfMultiDeps();
-	EXPECT_EQ(2 ,(int)comp->empsOfMultiDeps_Results.size());
+	EXPECT_EQ( 2 ,(int)comp->empsOfMultiDeps_Results.size());
 	}
 TEST_F(companyTest, loop_IN_Deps_Test) {
 	ASSERT_TRUE(comp->loop_IN_Deps());

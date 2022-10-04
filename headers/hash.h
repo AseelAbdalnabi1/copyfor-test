@@ -13,5 +13,5 @@ public:
  Hash(int BUCKET);
  void insertItem(Employee Emp);
  int hashFunction(int empSalary);
- void displayEmployeesWithSameSalary();
+ vector<Employee> displayEmployeesWithSameSalary();
 };

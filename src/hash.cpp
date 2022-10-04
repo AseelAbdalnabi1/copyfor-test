@@ -1,6 +1,8 @@
 #include "../headers/hash.h"
+#include <vector>
+using namespace std;
 class Employee;
-
+class Company;
 Hash::Hash(int BUCKET)
 {
  this->BUCKET = BUCKET;
@@ -17,33 +19,31 @@ void Hash::insertItem(Employee Emp)
 	}else{
 		while(table[index].front().getSalary()!=Emp.getSalary()&& (!table[index].empty()) ){
 			index+=1;
+			if(index==(int)Company::EmpsOfAllCompany.size()){//while loop reaches the end of the hash
+				index=0;//go to begining of hash
+			}
 		}
 		table[index].push_back(Emp);
 		return;
 	}
  }
 int Hash::hashFunction(int empSalary){
-	if(empSalary%10==0)
-		return empSalary%10;
-	else if(empSalary%100==0)
-		return empSalary%100;
-	else if(empSalary%1000==0){
-		return empSalary%1000;
-	}else{
 		return (empSalary%BUCKET);
-	}
 }
-void Hash::displayEmployeesWithSameSalary() {
+vector<Employee> Hash::displayEmployeesWithSameSalary() {
+	vector<Employee> EmployeesWithSameSalary_vector={};
 	for (int i = 0; i < BUCKET; i++) {
 		if(table[i].size()>1){
 			cout<<"Employees with same salary  are:-"<<endl;
 			for(auto j=table[i].begin();j!=table[i].end();j++)
 			{
+				EmployeesWithSameSalary_vector.push_back((*j));//added for unit testing
 				cout<<"Employee name , salary & ID: "<<(*j).getName()<<" | "<<	j->getSalary() <<" | "<<(*j).getEmpId()<<endl;
 			}
 		cout<<"-------------------------------------------------"<<endl;
 		}
 	}
+	return EmployeesWithSameSalary_vector;
 }
 
 
