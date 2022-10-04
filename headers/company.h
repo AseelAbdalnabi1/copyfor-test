@@ -24,6 +24,7 @@ private:
     Company();
     ~Company();
 public:
+    static std::vector<Employee> empsOfDeps;//no duplicate
     static std::vector<Employee> empsOfMultiDeps_Results;
     static std::vector<Employee> listOfFloatingEmps;
     static std::vector<Employee> EmpsOfAllCompany;//all employees in company(regardless if they are in deps or not)

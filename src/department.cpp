@@ -128,7 +128,8 @@ bool Department::removeEmpFromDep(Employee emp){
 void Department::removeEmpFromDep(Employee emp,Company *compObj){
 	Department *dep=findDepartment(this,compObj);//we try to find the department(search for the required department)
 	if(!(dep==nullptr)){//the required department is found
-		if(dep->removeEmpFromDep(emp)){//we make sure the emp is found in the required department and has been deleted
+		bool deletedFromDep=dep->removeEmpFromDep(emp);
+		if(deletedFromDep==1){//we make sure the emp is found in the required department and has been deleted
 			Employee *empInOtherDep=findEmployeeInDep(emp,compObj,compObj->getMainDeps());//we check if the emp belongs to another department in company---using findEmployeeInDep function
 			if(empInOtherDep==nullptr){	//if emp  belongs to another dep---we won't delete it form EmpsOfAllCompany
 				Employee* EmpPtr=findEmployeeInCompany(emp,compObj);

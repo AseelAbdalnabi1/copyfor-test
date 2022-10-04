@@ -825,7 +825,7 @@ class companyTest : public ::testing::Test
 {	public:
 	Company *comp=comp->getCompObject();
 };
-TEST_F(companyTest, AllEmployeesOfDeps) {
+TEST_F(companyTest, empsOfDeps) {
 	Department *dep1= new Department("dep1");
 	Department *dep2= new Department("dep2");
 	Department *dep3= new Department("dep3");
@@ -873,10 +873,7 @@ TEST_F(companyTest, AllEmployeesOfDeps) {
 	dep9->addEmpToDep(*emp5,comp);
 	dep8->addEmpToDep(*emp1,comp);
 	comp->allEmployees();
-	EXPECT_EQ( 11,(int)comp->allEmpsOfDepartments.size());
-
-
-	   // ASSERT_TRUE(1 == 1);
+	EXPECT_EQ( 9,(int)comp->empsOfDeps.size());
 	}
 TEST_F(companyTest, empsWithSameSalaryTest) {
 	EXPECT_EQ( 5,(int) comp->empsWithSameSalary().size());

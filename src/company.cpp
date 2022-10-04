@@ -12,11 +12,12 @@
 using namespace std;
 
  Company * Company::compObject;
- vector<Employee> Company::allEmpsOfDepartments  = {};//ALL EMPS FILLED BY A FUNCTION IN COMPANY
+ vector<Employee> Company::allEmpsOfDepartments  = {};//ALL EMPS FILLED BY A FUNCTION IN COMPANY-with duplication
  vector<Employee> Company::EmpsOfAllCompany = {};
  set<string> Company::ChildsOfDeps={};
  vector<Employee> Company::listOfFloatingEmps={};
  vector<Employee> Company::empsOfMultiDeps_Results={};
+ vector<Employee> Company::empsOfDeps={};//all employees in company without multiplication
 Company::Company(){
 	this->CeoEmp=new Employee("Tareq",35,CEO,50000);
 	 EmpsOfAllCompany.push_back(*CeoEmp);
@@ -57,8 +58,13 @@ void Company::removeMainDepFromCompany(Department dep){
 	 }
 }
 void allEmpsFun(Department dep,Company *obj ){
-     obj->allEmpsOfDepartments.insert(obj->allEmpsOfDepartments.end(), dep.getEmpsOfDep()->begin(),dep.getEmpsOfDep()->end() );//stops here
-    if(dep.isAnySubDeps()==1){
+     obj->allEmpsOfDepartments.insert(obj->allEmpsOfDepartments.end(), dep.getEmpsOfDep()->begin(),dep.getEmpsOfDep()->end() );//allowing duplicating) for further use in employees of multiple departments API
+     for(auto it =dep.getEmpsOfDep()->begin();it !=dep.getEmpsOfDep()->end();it++){
+    	 if(find(obj->empsOfDeps.begin(),obj->empsOfDeps.end(),(*it))==obj->empsOfDeps.end()){//Checking of this employee is already in empsOfDeps--if found don't add it
+    		 obj->empsOfDeps.push_back((*it));//if not found ad it
+    	 }
+     }
+    if(dep.isAnySubDeps()==1){//checking if department has sub department or not ---if it has it calls allEmpsFun function on each sub department of that department
     	for(auto f=dep.getSubDeps()->begin();f!=dep.getSubDeps()->end();f++){
          allEmpsFun((*f),obj);
     	}
@@ -68,13 +74,14 @@ void allEmpsFun(Department dep,Company *obj ){
     }
 }
 vector<Employee> Company::allEmployees(){
-	allEmpsOfDepartments.clear();
+	allEmpsOfDepartments={};// a vector of employees in departments (allowing duplicating) for further use in employees of multiple departments API
+	empsOfDeps={};// a vector of employees in departments(without allowing duplicating)
     int size=(int) MainDeps.size();
     for(int i=0;i<size;i++){
-    	 thread th(allEmpsFun,MainDeps.at(i),this);
+    	 thread th(allEmpsFun,MainDeps.at(i),this);//a thread for each Main Department in company
     	 th.join();
     }
-    return this->allEmpsOfDepartments;
+    return this->empsOfDeps;
 }
 
 vector<Employee> Company::empsWithSameSalary(){//API to find employees with same salaries
@@ -83,7 +90,7 @@ vector<Employee> Company::empsWithSameSalary(){//API to find employees with same
 		   for(auto i=EmpsOfAllCompany.begin();i!=EmpsOfAllCompany.end();i++){//loop through out the employees of company and inserting them to the hash table
 			   hashForEmpsWithSameSalary.insertItem((*i));
 		   }
-		   return hashForEmpsWithSameSalary.displayEmployeesWithSameSalary();
+		   return hashForEmpsWithSameSalary.displayEmployeesWithSameSalary();//returning a vector of Employees with same salary and displaying them
 
 	}else{
 		cout<<"Company has NO employees "<<endl;
@@ -112,7 +119,8 @@ void Company::removeEmpFromCompany(Employee emp){//employees who are in company 
 	}
 }
 vector<Employee> Company::empsOfMultiDeps(){ //finding employees of multiple departments
-	vector<Employee>  EmpsOfDeps=allEmployees();//getting employees of department
+	allEmployees();
+	vector<Employee>  EmpsOfDeps=this->allEmpsOfDepartments;//getting employees of department
 	 empsOfMultiDeps_Results={};//vector to store the employees of multiple departments
 	set<int> SetOfEmps;//set of employees in department without Repetition
 	for(auto i=EmpsOfDeps.begin();i!=EmpsOfDeps.end();i++){
@@ -122,7 +130,7 @@ vector<Employee> Company::empsOfMultiDeps(){ //finding employees of multiple dep
 			empsOfMultiDeps_Results.push_back((*i));
 		}
 	}
-	cout<<"Employees of multi-Departments : "<<endl;;
+	cout<<"Employees of multi-Departments : "<<endl;//printing Employees of multi-Departments
 	for(auto i=empsOfMultiDeps_Results.begin();i!=empsOfMultiDeps_Results.end();i++){
 		cout<<"Employee name & ID : "<<	i->getName()<<"  |  "<<i->getEmpId()<<endl;;
 	}
