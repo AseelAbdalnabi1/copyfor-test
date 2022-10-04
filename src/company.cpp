@@ -14,7 +14,9 @@ using namespace std;
  Company * Company::compObject;
  vector<Employee> Company::allEmpsOfDepartments  = {};//ALL EMPS FILLED BY A FUNCTION IN COMPANY
  vector<Employee> Company::EmpsOfAllCompany = {};
- std::set<std::string> Company::ChildsOfDeps={};
+ set<string> Company::ChildsOfDeps={};
+ vector<Employee> Company::listOfFloatingEmps={};
+ vector<Employee> Company::empsOfMultiDeps_Results={};
 Company::Company(){
 	this->CeoEmp=new Employee("Tareq",35,CEO,50000);
 	 EmpsOfAllCompany.push_back(*CeoEmp);
@@ -113,7 +115,7 @@ void Company::removeEmpFromCompany(Employee emp){//employees who are in company 
 }
 vector<Employee> Company::empsOfMultiDeps(){
 	vector<Employee>  EmpsOfDeps=allEmployees();
-	vector<Employee> empsOfMultiDeps_Results={};
+	 empsOfMultiDeps_Results={};
 	set<int> SetOfEmps;
 	for(auto i=EmpsOfDeps.begin();i!=EmpsOfDeps.end();i++){
 		if(SetOfEmps.find((*i).getEmpId())==SetOfEmps.end()){
@@ -169,12 +171,12 @@ bool Company::loop_IN_Deps_hand(Department 	ParentDep){
 	return false;
 }
 bool Company::floatingEmps(){
-	vector<Employee> listOfFloatingEmps={};
+	 listOfFloatingEmps={};
 	vector<Employee> AllEmpsOfDeps=allEmployees();
 	for(auto i=EmpsOfAllCompany.begin(); i!=EmpsOfAllCompany.end();i++){
 		if(find(AllEmpsOfDeps.begin(),AllEmpsOfDeps.end(),(*i))==AllEmpsOfDeps.end()){
 			if((*i).getRole(this)!="CEO"){
-			listOfFloatingEmps.push_back((*i));
+				listOfFloatingEmps.push_back((*i));
 			}
 		}
 	}

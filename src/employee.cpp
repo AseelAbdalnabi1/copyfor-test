@@ -29,7 +29,7 @@ Employee::Employee(string Name,float Age ,ROLE Role,int Salary):Person(Name,Age)
 	cout<<"Employee created! with empId : "<<this->getEmpId()<<endl;
 }
 
-Employee* Employee::Create(string Name,float Age ,ROLE RoleType,int Salary){
+Employee* Employee::Create(string Name,float Age ,ROLE RoleType,int Salary){//factory design pattern
 	Employee *emp=nullptr;
 	if (RoleType == CEO){
 		emp=new ceo(Name,Age,Salary);

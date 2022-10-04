@@ -9,6 +9,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include src/subdir.mk
+-include googleTestLib/gtest/subdir.mk
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(strip $(C++_DEPS)),)
 -include $(C++_DEPS)
@@ -55,7 +56,7 @@ main-build: Training_Project
 Training_Project: $(OBJS) $(USER_OBJS) makefile $(OPTIONAL_TOOL_DEPS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
-	g++  -o "Training_Project" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -o "Training_Project" $(OBJS) $(USER_OBJS) $(LIBS) -lpthread
 	@echo 'Finished building target: $@'
 	@echo ' '
 

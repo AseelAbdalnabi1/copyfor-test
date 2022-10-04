@@ -12,6 +12,9 @@ using namespace std;
 #include "../headers/company.h"
 #include <thread>
 #include <algorithm>
+#include "../googleTestLib/gtest/gtest.h"
+#include <iostream>
+#include <stdio.h>
 class Company;
 class Employee;
 class Department;
@@ -100,7 +103,7 @@ void TestFunctionToSeeAllTheCompanyDepsHand(Department dep,Company *compObj){
 		 }
 	}
 }
-int main() {
+/*int main() {
 	Company *comp=comp->getCompObject();
 	/*Department dep1("backend");
 	Department dep5("dep5");
@@ -108,7 +111,7 @@ int main() {
 	Department dep2("dep2");
 	dep5.addSubDep(dep6);
 	dep1.addSubDep(dep5);*/
-	Department dep1("dep1");
+	/*Department dep1("dep1");
 	Department dep5("dep5");
 	Department dep55("dep55");
 	Department dep6("dep6");
@@ -144,7 +147,7 @@ int main() {
     Employee *emp14=Employee::Create("emp14", 10, DEVELOPER, 2000);
     Employee *emp15=Employee::Create("emp15", 10, TESTER, 2000);*/
 
-	 Employee emp1("emp1",16,MANAGER,6000);
+	 /*Employee emp1("emp1",16,MANAGER,6000);
 	    Employee emp2("emp2",25,HR,4000);
 	    Employee emp3("emp3",24,MANAGER,2300);
 	    Employee emp4("emp4",24,MANAGER,2300);
@@ -744,8 +747,8 @@ cout<<"do we have loops in deps?    "<<comp->loop_IN_Deps()<<endl;//0
 	cout<<emp1.getAge()<<" "<<emp1.getEmpId()<<" "<<emp1.getSalary()<<" "<<emp1.getName()<<" "<<emp1.getRole()<<endl;
 	cout << "Training project" << endl; // prints Training project
 	*/
-	return 0;
-}
+	//return 0;
+//}
 // inserting into a vector
 /*
 #include <iostream>
@@ -818,3 +821,81 @@ int main ()
 
     return 0;
 }*/
+class companyTest : public ::testing::Test
+{	public:
+	Company *comp=comp->getCompObject();
+};
+TEST_F(companyTest, AllEmployeesOfDeps) {
+	Department *dep1= new Department("dep1");
+	Department *dep2= new Department("dep2");
+	Department *dep3= new Department("dep3");
+	Department *dep4= new Department("dep4");
+	Department *dep5= new Department("dep5");
+	Department *dep6= new Department("dep6");
+	Department *dep7= new Department("dep7");
+	Department *dep8= new Department("dep8");
+	Department *dep9= new Department("dep9");
+	Department *dep10= new Department("dep10");
+	Employee *emp1=Employee::Create("emp1",16,TESTER,6000);
+    Employee *emp2=Employee::Create("emp2",25,DEVELOPER,4000);
+    Employee *emp3=Employee::Create("emp3",24,MANAGER,2300);
+    Employee *emp4=Employee::Create("emp4",24,DEVELOPER,2300);
+    Employee *emp5=Employee::Create("emp5",24,TESTER,2350);
+    Employee *emp6=Employee::Create("emp6",24,DEVELOPER,2350);
+    Employee *emp7=Employee::Create("emp7",24,HR,6000);
+    Employee *emp8=Employee::Create("emp8",24,HR,600);
+    Employee *emp9=Employee::Create("emp9",29,TEAM_LEAD,600);
+	Employee *emp11=Employee::Create("emp11", 10, MANAGER, 2000);
+	Employee *emp10=Employee::Create("emp10",29,DEVELOPER,600);
+	comp->addEmpToCompany(*emp10);
+	comp->addEmpToCompany(*emp11);
+
+	comp->addMainDepToCompany(*dep1);
+	comp->addMainDepToCompany(*dep2);
+	dep1->addSubDep(*dep3,comp);
+	dep1->addSubDep(*dep4,comp);
+	dep3->addSubDep(*dep5,comp);
+	dep3->addSubDep(*dep6,comp);
+	dep2->addSubDep(*dep7,comp);
+	dep2->addSubDep(*dep8,comp);
+	dep7->addSubDep(*dep9,comp);
+	dep7->addSubDep(*dep10,comp);
+	dep8->addSubDep(*dep10,comp);
+	dep1->addEmpToDep(*emp1,comp);
+	dep2->addEmpToDep(*emp2,comp);
+	dep3->addEmpToDep(*emp3,comp);
+	dep4->addEmpToDep(*emp4,comp);
+	dep5->addEmpToDep(*emp5,comp);
+	dep6->addEmpToDep(*emp6,comp);
+	dep7->addEmpToDep(*emp7,comp);
+	dep8->addEmpToDep(*emp8,comp);
+	dep9->addEmpToDep(*emp9,comp);
+	dep9->addEmpToDep(*emp5,comp);
+	dep8->addEmpToDep(*emp1,comp);
+	comp->allEmployees();
+	EXPECT_EQ( 11,(int)comp->allEmpsOfDepartments.size());
+
+
+	   // ASSERT_TRUE(1 == 1);
+	}
+TEST_F(companyTest, empsWithSameSalaryTest) {
+	comp->empsWithSameSalary();
+}
+TEST_F(companyTest, empsOfMultiDepsTest) {
+	comp->empsOfMultiDeps();
+	EXPECT_EQ(2 ,(int)comp->empsOfMultiDeps_Results.size());
+	}
+TEST_F(companyTest, loop_IN_Deps_Test) {
+	ASSERT_TRUE(comp->loop_IN_Deps());
+	}
+TEST_F(companyTest, floatingEmpsTest) {
+	comp->floatingEmps();
+	EXPECT_EQ( 2,(int)comp->listOfFloatingEmps.size());
+}
+
+int main ()
+{
+::testing::InitGoogleTest();
+return RUN_ALL_TESTS( ) ;
+}
+

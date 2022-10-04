@@ -24,7 +24,8 @@ private:
     Company();
     ~Company();
 public:
-    static std::vector<Department> DepsOfAllCompany;
+    static std::vector<Employee> empsOfMultiDeps_Results;
+    static std::vector<Employee> listOfFloatingEmps;
     static std::vector<Employee> EmpsOfAllCompany;//all employees in company(regardless if they are in deps or not)
     static std::vector<Employee> allEmpsOfDepartments;//employees in Deps in company
     static Company *getCompObject(){
