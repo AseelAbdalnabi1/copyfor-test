@@ -50,19 +50,7 @@ Employee* Employee::Create(string Name,float Age ,ROLE RoleType,int Salary){//fa
 	else
 		return NULL;
 }
-string Employee::getName(){
-	return Person::getName();
-}
-void Employee::setName(string Name){
-	Person::setName(Name);
-}
-float Employee::getAge(){
-	return Person::getAge();
-}
-void Employee::setAge(float Age){
-	Person::setAge(Age);
-}
-void Employee::setAge(float Age,Company *compObj){
+void Employee::setAgeInComapny(float Age,Company *compObj){
 	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 	    Emp->Person::setAge(Age);
@@ -80,7 +68,7 @@ void Employee::setAge(float Age,Company *compObj){
 	}
 
 }
-float Employee::getAge(Company *compObj){
+float Employee::getAgeFromCompany(Company *compObj){
 	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 		return Emp->Person::getAge();
@@ -94,7 +82,7 @@ float Employee::getAge(Company *compObj){
 		}
 	}
 }
-void Employee::setName(std::string Name,Company *compObj){
+void Employee::setNameInCompany(std::string Name,Company *compObj){
 	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 	    Emp->Person::setName(Name);
@@ -111,7 +99,7 @@ void Employee::setName(std::string Name,Company *compObj){
 		}
 	}
 }
-string Employee::getName(Company *compObj){
+string Employee::getNameFromComp(Company *compObj){
 	Employee *Emp=findEmployeeInDep(*this,compObj,compObj->getMainDeps());
 	if(!(Emp==nullptr)){
 		return Emp->Person::getName();

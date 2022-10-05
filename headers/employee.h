@@ -12,6 +12,7 @@
 class Person;
 class Company;
 enum ROLE {CEO, MANAGER, TEAM_LEAD, DEVELOPER, TESTER, HR};
+
 class Employee : public Person{
 private:
 	ROLE Role;
@@ -22,14 +23,11 @@ private:
 public:
 	Employee(std::string Name,float Age ,ROLE Role,int Salary);
 	static Employee* Create(std::string Name,float Age ,ROLE RoleType,int Salary);
-	std::string getName();
-	void setName(std::string Name);
-	void setName(std::string Name,Company *compObj);
-	float getAge();
-	void setAge(float Age);
-	void setAge(float Age,Company *compObj);
-	float getAge(Company *compObj);
-	std::string getName(Company *compObj);
+	std::string getNameFromComp(Company *compObj);
+	void setNameInCompany(std::string Name,Company *compObj);
+	void setAgeInComapny(float Age,Company *compObj);
+	float getAgeFromCompany(Company *compObj);
+
 	void setRole(ROLE Role);
 	void setRole(ROLE Role,Company *compObj);
 	std::string getRole();
@@ -39,7 +37,6 @@ public:
 	int getSalary();
 	int getSalary(Company *compObj);
 	int getEmpId();
-	//int getEmpId(Company *compObj);
 	bool operator == (Employee Emp);
 	bool operator == (int const &empID);
 	~Employee();
