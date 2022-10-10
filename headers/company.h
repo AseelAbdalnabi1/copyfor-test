@@ -40,6 +40,7 @@ public:
     std::vector<Department>* getMainDeps();
     void addMainDepToCompany(Department dep);
     void removeMainDepFromCompany(Department dep);
+    void removeMainDepFromCompany(std::string depName);
     void addEmpToCompany(Employee emp);
     void removeEmpFromCompany(Employee emp);
     std::vector<Employee> allEmployees();

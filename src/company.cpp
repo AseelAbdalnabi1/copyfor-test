@@ -53,10 +53,21 @@ void Company::removeMainDepFromCompany(Department dep){
 		  MainDeps.erase(i);
           cout<<"department has bee deleted successfully"<<endl;
 	 }else{
-		 cout<<"Department with  "<<dep.getDepName()<<"  dose not exists in company"<<endl;
+		 cout<<"Department with  "<< dep.getDepName() <<"  dose not exists in company"<<endl;
 	     return;
 	 }
 }
+void Company::removeMainDepFromCompany(string depName){
+	auto i=find(getMainDeps()->begin(),getMainDeps()->end(), depName);
+	if(i != this->getMainDeps()->end()){
+		  MainDeps.erase(i);
+          cout<<"Main_Department has bee deleted successfully"<<endl;
+	 }else{
+		 cout<<"Department with  "<<depName<<"  is NOT a MAIN department of the company"<<endl;
+	     return;
+	 }
+}
+
 void allEmpsFun(Department dep,Company *obj ){
      obj->allEmpsOfDepartments.insert(obj->allEmpsOfDepartments.end(), dep.getEmpsOfDep()->begin(),dep.getEmpsOfDep()->end() );//allowing duplicating) for further use in employees of multiple departments API
      for(auto it =dep.getEmpsOfDep()->begin();it !=dep.getEmpsOfDep()->end();it++){
